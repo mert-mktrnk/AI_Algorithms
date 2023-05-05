@@ -1,0 +1,97 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows.Forms;
+
+namespace GercekKodluGA
+{
+    class DogalSecim
+    {
+        private double toplamUygunluk = 0;
+
+        private double[] tekerlek;
+
+        public double ToplamUygunlukDegeri(double[] uygunlukDegeri)
+        {
+            toplamUygunluk = 0;
+            for (int i = 0; i < uygunlukDegeri.Length; i++)
+            {
+                uygunlukDegeri[i] = uygunlukDegeri[i] + 1.1;
+                uygunlukDegeri[i] = 1 / uygunlukDegeri[i];
+                toplamUygunluk = toplamUygunluk + uygunlukDegeri[i];
+            }
+            return toplamUygunluk;
+        }
+
+        private void SeleksiyonIhtimali(double[] uygunlukDegeri, double[] seleksiyon)
+        {
+            toplamUygunluk = ToplamUygunlukDegeri(uygunlukDegeri);
+
+            for (int i = 0; i < uygunlukDegeri.Length; i++)
+            {
+                seleksiyon[i] = uygunlukDegeri[i] / toplamUygunluk;
+            }
+        }
+
+        private void KumulatifIhtimal(double[] uygunlukDegeri, double[] seleksiyon, double[] kumulatif)
+        {
+            SeleksiyonIhtimali(uygunlukDegeri, seleksiyon);
+
+            kumulatif[0] = seleksiyon[0];
+            for (int i = 1; i < kumulatif.Length; i++)
+            {
+                kumulatif[i] = kumulatif[i - 1] + seleksiyon[i];
+            }
+        }
+
+        private void KromozomAktarimi(double[] kumulatif, double[,] eskiKromozom, double[,] yeniKromozom)
+        {
+            for (int i = 0; i < kumulatif.Length; i++)
+            {
+                yeniKromozom[0, i] = eskiKromozom[0, i];
+                yeniKromozom[1, i] = eskiKromozom[1, i];
+            }
+        }
+
+        public void RuletTekerlegi(double[] uygunlukDegeri, double[] seleksiyon, double[] kumulatif, double[,] eskiKromozom, double[,] yeniKromozom)
+        {
+            KumulatifIhtimal(uygunlukDegeri, seleksiyon, kumulatif);
+            KromozomAktarimi(kumulatif, eskiKromozom, yeniKromozom);
+
+            tekerlek = new double[kumulatif.Length];
+            RandomOlusturma.DoubleDegerOlusturma(tekerlek);
+
+            for (int i = 0; i < kumulatif.Length; i++)
+            {
+                for (int j = 0; j < kumulatif.Length - 1; j++)
+                {
+                    if (tekerlek[i] >= kumulatif[j] && tekerlek[i] <= kumulatif[j + 1])
+                    {
+                        if (tekerlek[i] - kumulatif[j] >= kumulatif[j + 1] - tekerlek[i])
+                        {
+                            yeniKromozom[0, i] = eskiKromozom[0, j + 1];
+                            yeniKromozom[1, i] = eskiKromozom[1, j + 1];
+                        }
+                        else
+                        {
+                            yeniKromozom[0, i] = eskiKromozom[0, j];
+                            yeniKromozom[1, i] = eskiKromozom[1, j];
+                        }
+                    }
+                    if (j == 0 && tekerlek[i] <= kumulatif[0])
+                    {
+                        yeniKromozom[0, i] = eskiKromozom[0, j];
+                        yeniKromozom[1, i] = eskiKromozom[1, j];
+                    }
+                    if (j == kumulatif.Length - 1 && tekerlek[i] >= kumulatif[j + 1])
+                    {
+                        yeniKromozom[0, i] = eskiKromozom[0, j + 1];
+                        yeniKromozom[1, i] = eskiKromozom[1, j + 1];
+                    }
+                }
+            }
+        }
+    }
+}

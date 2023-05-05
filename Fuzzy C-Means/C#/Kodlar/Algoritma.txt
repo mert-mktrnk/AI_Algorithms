@@ -1,0 +1,393 @@
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows.Forms;
+
+namespace Fuzzy
+{
+    public partial class Algoritma : Form
+    {
+        #region Degiskenler
+
+        private readonly double m = 2;
+        private readonly decimal Epsilon = 1;
+
+        ArrayList VeriX = new ArrayList();
+        ArrayList VeriY = new ArrayList();
+        ArrayList KumeX = new ArrayList();
+        ArrayList KumeY = new ArrayList();
+
+        decimal[] Eski;
+        decimal[] Yeni;
+
+        decimal[,] YeniDereceler;
+        decimal[,] EskiDereceler;
+
+        #endregion
+
+        public Algoritma()
+        {
+            InitializeComponent();
+        }
+
+        private void ButtonOlustur_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                YeniDereceler = new decimal[Convert.ToInt32(TextBoxKumeSayisi.Text), Convert.ToInt32(TextBoxElemanSayisi.Text)];
+                EskiDereceler = new decimal[Convert.ToInt32(TextBoxKumeSayisi.Text), Convert.ToInt32(TextBoxElemanSayisi.Text)];
+
+                Eski = new decimal[Convert.ToInt32(TextBoxKumeSayisi.Text)];
+                Yeni = new decimal[Convert.ToInt32(TextBoxKumeSayisi.Text)];
+                RandomAtama.Otomatik_Deger_Atama(Convert.ToInt32(TextBoxElemanSayisi.Text), VeriX, 2225);
+                RandomAtama.Otomatik_Deger_Atama(Convert.ToInt32(TextBoxElemanSayisi.Text), VeriY, 1700);
+                RandomAtama.Otomatik_Deger_Atama(Convert.ToInt32(TextBoxKumeSayisi.Text), KumeX, 2225);
+                RandomAtama.Otomatik_Deger_Atama(Convert.ToInt32(TextBoxKumeSayisi.Text), KumeY, 1700);
+                RandomAtama.Otomatik_Deger_Atama(EskiDereceler, YeniDereceler, VeriX, KumeX);
+
+                UyelikDereceleri uyelikDereceleri = new UyelikDereceleri();
+                uyelikDereceleri.Uyelik_Degerleri(m, YeniDereceler, VeriX, VeriY, KumeX, KumeY);
+
+                KumeMerkezleri kumeMerkezleri = new KumeMerkezleri();
+                kumeMerkezleri.Yeni_Kume_Merkezi_Tek_Eksen(m, YeniDereceler, VeriX, KumeX);
+                kumeMerkezleri.Yeni_Kume_Merkezi_Tek_Eksen(m, YeniDereceler, VeriY, KumeY);
+
+                Iterasyon iterasyon = new Iterasyon();
+                iterasyon.Iterasyon_Hesapla(m, EskiDereceler, YeniDereceler, Epsilon, VeriX, VeriY, KumeX, KumeY);
+
+                LabelIterasyonDegeri.Text = iterasyon.sayi.ToString();
+                Label_Ciz_KumeMerkezleri(KumeX, KumeY);
+                Label_Veri_Cizme(YeniDereceler, Eski, Yeni, VeriX, VeriY, KumeX);
+                Enabled_True_Durumlari();
+            }
+            catch
+            {
+                MessageBox.Show("Eksik veya hatalý deðer girdiniz.", "Hata", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                Enabled_False_Durumlari();
+            }
+        }
+
+        private void ButtonEkle_Click(object sender, EventArgs e)
+        {
+            UyelikDereceleri uyelikDereceleri = new UyelikDereceleri();
+            decimal[,] yeni = new decimal[Convert.ToInt32(TextBoxKumeSayisi.Text), 1];
+            decimal[] es = new decimal[Convert.ToInt32(TextBoxKumeSayisi.Text)];
+            decimal[] ye = new decimal[Convert.ToInt32(TextBoxKumeSayisi.Text)];
+            ArrayList x = new ArrayList();
+            ArrayList y = new ArrayList();
+
+            try
+            {
+                x.Add(Convert.ToInt32(TextBoxXDegeri.Text));
+                y.Add(Convert.ToInt32(TextBoxYDegeri.Text));
+                uyelikDereceleri.Uyelik_Degerleri(m, yeni, x, y, KumeX, KumeY);
+                string yaz = "";
+                int deger1 = Convert.ToInt32(TextBoxKumeSayisi.Text);
+                int deger2 = 1;
+
+                Label[] lbl = new Label[deger2];
+
+                for (int i = 0; i < deger2; i++)
+                {
+                    for (int j = 0; j < deger1; j++)
+                    {
+                        yaz = yaz + Convert.ToString((j + 1) + ". Kume Derecesi = " + yeni[j, i] + "\n");
+                        es[j] = yeni[j, i];
+                        ye[j] = yeni[j, i];
+                    }
+                    Array.Sort(ye);
+
+                    for (int j = 0; j < deger1; j++)
+                    {
+                        if (ye[ye.Length - 1] == es[j])
+                        {
+                            lbl[i] = new Label();
+                            lbl[i].Font = new Font("French Script MT", 6);
+                            lbl[i].AutoSize = true;
+                            lbl[i].Location = new Point(Convert.ToInt32(x[i]), Convert.ToInt32(y[i]));
+                            lbl[i].Text = "O";
+                            switch (j + 1)
+                            {
+                                case 1:
+                                    lbl[i].ForeColor = Color.Black;
+                                    break;
+                                case 2:
+                                    lbl[i].ForeColor = Color.Yellow;
+                                    break;
+                                case 3:
+                                    lbl[i].ForeColor = Color.DarkGreen;
+                                    break;
+                                case 4:
+                                    lbl[i].ForeColor = Color.DarkRed;
+                                    break;
+                                case 5:
+                                    lbl[i].ForeColor = Color.Brown;
+                                    break;
+                                case 6:
+                                    lbl[i].ForeColor = Color.Purple;
+                                    break;
+                                case 7:
+                                    lbl[i].ForeColor = Color.DarkBlue;
+                                    break;
+                                case 8:
+                                    lbl[i].ForeColor = Color.Turquoise;
+                                    break;
+                                case 9:
+                                    lbl[i].ForeColor = Color.LightPink;
+                                    break;
+                                case 10:
+                                    lbl[i].ForeColor = Color.DarkCyan;
+                                    break;
+                                default:
+                                    break;
+                            }
+                            GroupBoxCizim.Controls.Add(lbl[i]);
+                            toolTipYeniVeri.SetToolTip(lbl[i], Convert.ToString((j + 1) + ". Küme Elemaný" + "\nX Noktasý = " + Convert.ToInt32(x[i]) + "\nY Noktasý = " + Convert.ToInt32(y[i]) + "\n --------------------------- \n" + yaz));
+                        }
+                    }
+                    yaz = "";
+                }
+            }
+            catch
+            {
+                MessageBox.Show("Eksik veya hatalý deðer girdiniz.", "Hata", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                TextBoxXDegeri.Clear();
+                TextBoxYDegeri.Clear();
+                TextBoxXDegeri.Focus();
+            }
+            x.Clear();
+            y.Clear();
+        }
+
+        private void ButtonTemizle_Click(object sender, EventArgs e)
+        {
+            Enabled_False_Durumlari();
+        }
+
+        private void ToolStripMenuItemCikis_Click(object sender, EventArgs e)
+        {
+            if ((MessageBox.Show("Çýkmak istediðinize emin misinz?", "Uyarý", MessageBoxButtons.YesNo, MessageBoxIcon.Question)) == DialogResult.Yes)
+            {
+                Application.Exit();
+            }
+        }
+
+        private void ToolStripMenuItemYenile_Click(object sender, EventArgs e)
+        {
+            Enabled_False_Durumlari();
+        }
+
+        private void TextBoxXDegeri_TextChanged(object sender, EventArgs e)
+        {
+            try
+            {
+                if (Convert.ToInt32(TextBoxXDegeri.Text) > 847)
+                {
+                    TextBoxXDegeri.Clear();
+                    toolTipDeger.ToolTipTitle = "X Ekseni";
+                    toolTipDeger.SetToolTip(TextBoxXDegeri, "5 - 847 arasý \ndeðer girmeyiniz");
+                }
+            }
+            catch
+            {
+
+            }
+        }
+
+        private void TextBoxYDegeri_TextChanged(object sender, EventArgs e)
+        {
+            try
+            {
+                if (Convert.ToInt32(TextBoxYDegeri.Text) > 647)
+                {
+                    TextBoxYDegeri.Clear();
+                    toolTipDeger.ToolTipTitle = "Y Ekseni";
+                    toolTipDeger.SetToolTip(TextBoxYDegeri, "5 - 647 arasý \ndeðer girmeyiniz");
+                }
+            }
+            catch
+            {
+
+            }
+        }
+
+        private void Enabled_True_Durumlari()
+        {
+            ButtonOlustur.Enabled = false;
+            ButtonTemizle.Enabled = true;
+            TextBoxElemanSayisi.ReadOnly = true;
+            TextBoxKumeSayisi.ReadOnly = true;
+            LabelElemanSayisi.Enabled = false;
+            LabelKumeSayisi.Enabled = false;
+            GroupBoxCizim.Enabled = true;
+            LabelIterasyonDegeri.Enabled = true;
+            LabelIterasyonSayisi.Enabled = true;
+            TextBoxXDegeri.Enabled = true;
+            TextBoxXDegeri.Focus();
+            TextBoxYDegeri.Enabled = true;
+            LabelXDegeri.Enabled = true;
+            LabelYDegeri.Enabled = true;
+            ButtonEkle.Enabled = true;
+        }
+
+        private void Enabled_False_Durumlari()
+        {
+            VeriX.Clear();
+            VeriY.Clear();
+            KumeX.Clear();
+            KumeY.Clear();
+            Array.Clear(Eski, 0, Eski.Length);
+            Array.Clear(Yeni, 0, Yeni.Length);
+            TextBoxElemanSayisi.Clear();
+            TextBoxKumeSayisi.Clear();
+            TextBoxXDegeri.Clear();
+            TextBoxYDegeri.Clear();
+            ButtonOlustur.Enabled = true;
+            ButtonTemizle.Enabled = false;
+            TextBoxKumeSayisi.Focus();
+            TextBoxElemanSayisi.ReadOnly = false;
+            TextBoxKumeSayisi.ReadOnly = false;
+            TextBoxXDegeri.Enabled = false;
+            TextBoxYDegeri.Enabled = false;
+            LabelXDegeri.Enabled = false;
+            LabelYDegeri.Enabled = false;
+            LabelIterasyonDegeri.Text = "0";
+            LabelIterasyonDegeri.Enabled = false;
+            LabelIterasyonSayisi.Enabled = false;
+            GroupBoxCizim.Enabled = false;
+            GroupBoxCizim.Controls.Clear();
+            LabelKumeSayisi.Enabled = true;
+            LabelElemanSayisi.Enabled = true;
+            ButtonEkle.Enabled = false;
+        }
+
+        private void Label_Ciz_KumeMerkezleri(ArrayList x, ArrayList y)
+        {
+            int deger = Convert.ToInt32(TextBoxKumeSayisi.Text);
+
+            Label[] lbl = new Label[x.Count];
+
+            for (int i = 0; i < deger; i++)
+            {
+                lbl[i] = new Label();
+                lbl[i].Font = new Font("French Script MT", 6);
+                lbl[i].AutoSize = true;
+                lbl[i].Location = new Point(Convert.ToInt32(x[i]), Convert.ToInt32(y[i]));
+                lbl[i].Text = ((i + 1) + ". Kume").ToString();
+                switch (i + 1)
+                {
+                    case 1:
+                        lbl[i].ForeColor = Color.Black;
+                        break;
+                    case 2:
+                        lbl[i].ForeColor = Color.Yellow;
+                        break;
+                    case 3:
+                        lbl[i].ForeColor = Color.DarkGreen;
+                        break;
+                    case 4:
+                        lbl[i].ForeColor = Color.DarkRed;
+                        break;
+                    case 5:
+                        lbl[i].ForeColor = Color.Brown;
+                        break;
+                    case 6:
+                        lbl[i].ForeColor = Color.Purple;
+                        break;
+                    case 7:
+                        lbl[i].ForeColor = Color.DarkBlue;
+                        break;
+                    case 8:
+                        lbl[i].ForeColor = Color.Turquoise;
+                        break;
+                    case 9:
+                        lbl[i].ForeColor = Color.LightPink;
+                        break;
+                    case 10:
+                        lbl[i].ForeColor = Color.DarkCyan;
+                        break;
+                    default:
+                        break;
+                }
+                ToolTipKume.SetToolTip(lbl[i], Convert.ToString((i + 1) + ". Küme Merkezi" + "\nX Noktasý = " + Convert.ToInt32(x[i]) + "\nY Noktasý = " + Convert.ToInt32(y[i])));
+                GroupBoxCizim.Controls.Add(lbl[i]);
+            }
+        }
+
+        private void Label_Veri_Cizme(decimal[,] derece, decimal[] e, decimal[] y, ArrayList verix, ArrayList veriy, ArrayList kume)
+        {
+            string yaz = "";
+            int deger1 = Convert.ToInt32(TextBoxKumeSayisi.Text);
+            int deger2 = Convert.ToInt32(TextBoxElemanSayisi.Text);
+
+            Label[] lbl = new Label[deger2];
+
+            for (int i = 0; i < deger2; i++)
+            {
+                for (int j = 0; j < deger1; j++)
+                {
+                    yaz = yaz + Convert.ToString((j + 1) + ". Kume Derecesi = " + derece[j, i] + "\n");
+                    e[j] = derece[j, i];
+                    y[j] = derece[j, i];
+                }
+                Array.Sort(y);
+
+                for (int j = 0; j < deger1; j++)
+                {
+                    if (y[y.Length - 1] == e[j])
+                    {
+                        lbl[i] = new Label();
+                        lbl[i].Font = new Font("French Script MT", 6);
+                        lbl[i].AutoSize = true;
+                        lbl[i].Location = new Point(Convert.ToInt32(verix[i]), Convert.ToInt32(veriy[i]));
+                        lbl[i].Text = "o";
+                        switch (j + 1)
+                        {
+                            case 1:
+                                lbl[i].ForeColor = Color.Black;
+                                break;
+                            case 2:
+                                lbl[i].ForeColor = Color.Yellow;
+                                break;
+                            case 3:
+                                lbl[i].ForeColor = Color.DarkGreen;
+                                break;
+                            case 4:
+                                lbl[i].ForeColor = Color.DarkRed;
+                                break;
+                            case 5:
+                                lbl[i].ForeColor = Color.Brown;
+                                break;
+                            case 6:
+                                lbl[i].ForeColor = Color.Purple;
+                                break;
+                            case 7:
+                                lbl[i].ForeColor = Color.DarkBlue;
+                                break;
+                            case 8:
+                                lbl[i].ForeColor = Color.Turquoise;
+                                break;
+                            case 9:
+                                lbl[i].ForeColor = Color.LightPink;
+                                break;
+                            case 10:
+                                lbl[i].ForeColor = Color.DarkCyan;
+                                break;
+                            default:
+                                break;
+                        }
+                        GroupBoxCizim.Controls.Add(lbl[i]);
+                        ToolTipVeri.SetToolTip(lbl[i], Convert.ToString((j + 1) + ". Küme Elemaný" + "\nX Noktasý = " + Convert.ToInt32(verix[i]) + "\nY Noktasý = " + Convert.ToInt32(veriy[i]) + "\n --------------------------- \n" + yaz));
+                    }
+                }
+                yaz = "";
+            }
+        }
+    }
+}

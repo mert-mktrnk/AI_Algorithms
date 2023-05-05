@@ -1,0 +1,302 @@
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows.Forms;
+
+namespace ArtificialNerualNetworks
+{
+    public partial class BackPropagation : Form
+    {
+        #region Degisken Tanimlari
+
+        private int Sira = 0;
+
+        private int EpokSayisi;
+        private double HataDegeri;
+
+        private double ArzuEdilenCikis;
+        private double EgitimHizi;
+
+        private double[] SigmaCikis = new double[1];
+        private double[] SigmaGizliNoron = new double[4];
+
+        private double[] GizliNoronDegerleri = new double[4];
+        private double[] CikisNoronDegeri = new double[1];
+
+        private double[] GirisDegerleri = new double[5];
+
+        private double[] Altiya = new double[5];
+        private double[] Yediye = new double[5];
+        private double[] Sekize = new double[5];
+        private double[] Dokuza = new double[5];
+        private double[] Ona = new double[4];
+
+        private List<double[]> GizliNoronlarIcýn = new List<double[]>();
+        private List<double[]> CikisNoronuIcin = new List<double[]>();
+
+        #endregion
+
+        public BackPropagation()
+        {
+            InitializeComponent();
+        }
+
+        private void BackPropagation_Load(object sender, EventArgs e)
+        {
+            DizileriListeAtama();
+        }
+
+        private void ListBoxX1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            try
+            {
+                Sira = ListBoxX1.SelectedIndex;
+                ListBoxX2.SelectedIndex = Sira;
+                ListBoxX3.SelectedIndex = Sira;
+                ListBoxX4.SelectedIndex = Sira;
+                ListBoxX5.SelectedIndex = Sira;
+                ListBoxYHedef.SelectedIndex = Sira;
+            }
+            catch
+            {
+                MessageBox.Show("Lütfen deðer atamasý yapýnýz.", "Uyarý", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void ListBoxYHedef_MouseDoubleClick(object sender, MouseEventArgs e)
+        {
+            try
+            {
+                TextBoxX1.Text = ListBoxX1.Items[Sira].ToString();
+                TextBoxX2.Text = ListBoxX2.Items[Sira].ToString();
+                TextBoxX3.Text = ListBoxX3.Items[Sira].ToString();
+                TextBoxX4.Text = ListBoxX4.Items[Sira].ToString();
+                TextBoxX5.Text = ListBoxX5.Items[Sira].ToString();
+
+                GirisDegerleri[0] = Convert.ToDouble(TextBoxX1.Text);
+                GirisDegerleri[1] = Convert.ToDouble(TextBoxX2.Text);
+                GirisDegerleri[2] = Convert.ToDouble(TextBoxX3.Text);
+                GirisDegerleri[3] = Convert.ToDouble(TextBoxX4.Text);
+                GirisDegerleri[4] = Convert.ToDouble(TextBoxX5.Text);
+
+                ArzuEdilenCikis = Convert.ToDouble(ListBoxYHedef.Items[Sira]);
+            }
+            catch
+            {
+                MessageBox.Show("Hatalý giriþ yaptýnýz.", "Uyarý", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void RadioButtonBCikisler1_CheckedChanged(object sender, EventArgs e)
+        {
+            if (RadioButtonBCikisler0.Checked == true && RadioButtonBCikisler1.Checked == false)
+            {
+                for (int i = 0; i < ListBoxYHedef.Items.Count; i++)
+                {
+                    ListBoxYHedef.Items[i] = 0;
+                }
+            }
+            else
+            {
+                for (int i = 0; i < ListBoxYHedef.Items.Count; i++)
+                {
+                    ListBoxYHedef.Items[i] = 1;
+                }
+            }
+        }
+
+        private void RadioButtonEpokSayisiKadar_CheckedChanged(object sender, EventArgs e)
+        {
+            if (RadioButtonEpokSayisiKadar.Checked == true && RadioButtonHatayaKadar.Checked == false)
+            {
+                LabelEpokSayisi.Enabled = true;
+                TextBoxEpokSayisi.Enabled = true;
+                LabelHataDegeri.Enabled = false;
+                TextBoxHataDegeri.Enabled = false;
+            }
+            else
+            {
+                LabelHataDegeri.Enabled = true;
+                TextBoxHataDegeri.Enabled = true;
+                LabelEpokSayisi.Enabled = false;
+                TextBoxEpokSayisi.Enabled = false;
+            }
+        }
+
+        private void ButtonRastgeleCikis_Click(object sender, EventArgs e)
+        {
+            Random random = new Random();
+
+            for (int i = 0; i < ListBoxYHedef.Items.Count; i++)
+            {
+                ListBoxYHedef.Items[i] = (random.Next()) % 2;
+            }
+        }
+        
+        private void ButtonRastgeleAgirlik_Click(object sender, EventArgs e)
+        {
+            RandomAtama.RandomDegerAtama(GizliNoronlarIcýn);
+            RandomAtama.RandomDegerAtama(CikisNoronuIcin);
+            DiziyiTextboxaAtamaIlk();
+        }
+
+        private void ButtonHesapla_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                Agirlik agirlik = new Agirlik();
+                Aktiflesme aktiflesme = new Aktiflesme();
+                Hata hata = new Hata();
+
+                EgitimHizi = Convert.ToDouble(TextBoxEgitimHizi.Text);
+                ButtonEgit.Enabled = true;
+                ButtonHesapla.Enabled = false;
+
+                aktiflesme.AktiflesmeHesaplamasi(GizliNoronlarIcýn, GirisDegerleri, GizliNoronDegerleri);
+                aktiflesme.AktiflesmeHesaplamasi(CikisNoronuIcin, GizliNoronDegerleri, CikisNoronDegeri);
+
+                SigmaCikis[0] = hata.SigmaDegeriBulmaCikis(ArzuEdilenCikis, CikisNoronDegeri[0], SigmaCikis[0]);
+                for (int i = 0; i < GizliNoronDegerleri.Length; i++)
+                {
+                    SigmaGizliNoron[i] = hata.SigmaDegeriBulmaGizliNoron(ArzuEdilenCikis, GizliNoronDegerleri[i], SigmaCikis[0], SigmaGizliNoron[i], Ona[i]);
+                }
+
+                agirlik.YeniAgirlikDegerleri(GizliNoronlarIcýn, EgitimHizi, SigmaGizliNoron, GirisDegerleri);
+                agirlik.YeniAgirlikDegerleri(CikisNoronuIcin, EgitimHizi, SigmaCikis, GizliNoronDegerleri);
+            }
+            catch
+            {
+                MessageBox.Show("Sistem hatasý!", "Hata", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void ButtonEgit_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                if (RadioButtonEpokSayisiKadar.Checked == true)
+                {
+                    EpokSayisi = Convert.ToInt32(TextBoxEpokSayisi.Text);
+                    Egitim.EgitimDongusuEpokSayisi(EpokSayisi, ArzuEdilenCikis, EgitimHizi, Ona, GirisDegerleri, GizliNoronDegerleri, CikisNoronDegeri, SigmaCikis, SigmaGizliNoron, GizliNoronlarIcýn, CikisNoronuIcin);
+                    LabelIterasyonDegeri.Text = EpokSayisi.ToString();
+                }
+                if (RadioButtonHatayaKadar.Checked == true)
+                {
+                    HataDegeri = Convert.ToDouble(TextBoxHataDegeri.Text);
+                    LabelIterasyonDegeri.Text = Egitim.EgitimDongusuHataDegeri(HataDegeri, ArzuEdilenCikis, EgitimHizi, Ona, GirisDegerleri, GizliNoronDegerleri, CikisNoronDegeri, SigmaCikis, SigmaGizliNoron, GizliNoronlarIcýn, CikisNoronuIcin).ToString();
+                }
+                TextBoxY.Text = CikisNoronDegeri[0].ToString();
+                ListBoxYMevcut.Items[Sira] = TextBoxY.Text;
+                ListBoxYMevcut.SelectedIndex = Sira;
+                DiziyiTextboxaAtamaSon();
+                if (MessageBox.Show("Devam etmek ister misiniz?", "Soru", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+                {
+                    Temizle();
+                    ButtonEgit.Enabled = false;
+                    ButtonHesapla.Enabled = true;
+                }
+            }
+            catch
+            {
+                MessageBox.Show("Sistem hatasý!", "Hata", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void DizileriListeAtama()
+        {
+            GizliNoronlarIcýn.Add(Altiya);
+            GizliNoronlarIcýn.Add(Yediye);
+            GizliNoronlarIcýn.Add(Sekize);
+            GizliNoronlarIcýn.Add(Dokuza);
+            CikisNoronuIcin.Add(Ona);
+        }
+
+        private void DiziyiTextboxaAtamaIlk()
+        {
+            TextBoxIlkW16.Text = Altiya[0].ToString();
+            TextBoxIlkW26.Text = Altiya[1].ToString();
+            TextBoxIlkW36.Text = Altiya[2].ToString();
+            TextBoxIlkW46.Text = Altiya[3].ToString();
+            TextBoxIlkW56.Text = Altiya[4].ToString();
+
+            TextBoxIlkW17.Text = Yediye[0].ToString();
+            TextBoxIlkW27.Text = Yediye[1].ToString();
+            TextBoxIlkW37.Text = Yediye[2].ToString();
+            TextBoxIlkW47.Text = Yediye[3].ToString();
+            TextBoxIlkW57.Text = Yediye[4].ToString();
+
+            TextBoxIlkW18.Text = Sekize[0].ToString();
+            TextBoxIlkW28.Text = Sekize[1].ToString();
+            TextBoxIlkW38.Text = Sekize[2].ToString();
+            TextBoxIlkW48.Text = Sekize[3].ToString();
+            TextBoxIlkW58.Text = Sekize[4].ToString();
+
+            TextBoxIlkW19.Text = Dokuza[0].ToString();
+            TextBoxIlkW29.Text = Dokuza[1].ToString();
+            TextBoxIlkW39.Text = Dokuza[2].ToString();
+            TextBoxIlkW49.Text = Dokuza[3].ToString();
+            TextBoxIlkW59.Text = Dokuza[4].ToString();
+
+            TextBoxIlkW610.Text = Ona[0].ToString();
+            TextBoxIlkW710.Text = Ona[1].ToString();
+            TextBoxIlkW810.Text = Ona[2].ToString();
+            TextBoxIlkW910.Text = Ona[3].ToString();
+        }
+
+        private void DiziyiTextboxaAtamaSon()
+        {
+            TextBoxHesW16.Text = Altiya[0].ToString();
+            TextBoxHesW26.Text = Altiya[1].ToString();
+            TextBoxHesW36.Text = Altiya[2].ToString();
+            TextBoxHesW46.Text = Altiya[3].ToString();
+            TextBoxHesW56.Text = Altiya[4].ToString();
+
+            TextBoxHesW17.Text = Yediye[0].ToString();
+            TextBoxHesW27.Text = Yediye[1].ToString();
+            TextBoxHesW37.Text = Yediye[2].ToString();
+            TextBoxHesW47.Text = Yediye[3].ToString();
+            TextBoxHesW57.Text = Yediye[4].ToString();
+
+            TextBoxHesW18.Text = Sekize[0].ToString();
+            TextBoxHesW28.Text = Sekize[1].ToString();
+            TextBoxHesW38.Text = Sekize[2].ToString();
+            TextBoxHesW48.Text = Sekize[3].ToString();
+            TextBoxHesW58.Text = Sekize[4].ToString();
+
+            TextBoxHesW19.Text = Dokuza[0].ToString();
+            TextBoxHesW29.Text = Dokuza[1].ToString();
+            TextBoxHesW39.Text = Dokuza[2].ToString();
+            TextBoxHesW49.Text = Dokuza[3].ToString();
+            TextBoxHesW59.Text = Dokuza[4].ToString();
+
+            TextBoxHesW610.Text = Ona[0].ToString();
+            TextBoxHesW710.Text = Ona[1].ToString();
+            TextBoxHesW810.Text = Ona[2].ToString();
+            TextBoxHesW910.Text = Ona[3].ToString();
+        }
+
+        private void Temizle()
+        {
+            Array.Clear(SigmaCikis, 0, SigmaCikis.Length);
+            Array.Clear(SigmaGizliNoron, 0, SigmaGizliNoron.Length);
+            Array.Clear(GizliNoronDegerleri, 0, GizliNoronDegerleri.Length);
+            Array.Clear(CikisNoronDegeri, 0, CikisNoronDegeri.Length);
+            Array.Clear(Altiya, 0, Altiya.Length);
+            Array.Clear(Yediye, 0, Yediye.Length);
+            Array.Clear(Sekize, 0, Sekize.Length);
+            Array.Clear(Dokuza, 0, Dokuza.Length);
+            Array.Clear(Ona, 0, Ona.Length);
+            GizliNoronlarIcýn.Clear();
+            CikisNoronuIcin.Clear();
+            DizileriListeAtama();
+            DiziyiTextboxaAtamaSon();
+            LabelIterasyonDegeri.Text = "0";
+        }
+    }
+}

@@ -1,0 +1,122 @@
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace IkiliKodluGenetikAlgoritma
+{
+    class Caprazlama
+    {
+        #region Degiskenler
+
+        private string degerCift = "";
+        private string degerTek = "";
+
+        private double[] degerler;
+
+        private int[] pos;
+
+        private string[] eslestirilenCiftler;
+
+        private char[] iCiftlerYeni;
+        private char[] iCiftlerEski;
+        private char[] iTeklerYeni;
+        private char[] iTeklerEski;
+
+        private Random random = new Random();
+        private ArrayList kromozomListesi = new ArrayList();
+
+        #endregion
+
+        private void RandomOlusturma(string[] yeniKromozom)
+        {
+            degerler = new double[yeniKromozom.Length];
+            for (int i = 0; i < degerler.Length; i++)
+            {
+                degerler[i] = random.NextDouble();
+            }
+        }
+
+        private void PopulasyonYeniVersiyon(string[] yeniKromozom, double pc)
+        {
+            RandomOlusturma(yeniKromozom);
+
+            for (int i = 0; i < degerler.Length; i++)
+            {
+                if (degerler[i] <= pc)
+                {
+                    kromozomListesi.Add(i);
+                }
+            }
+            if ((kromozomListesi.Count % 2) == 1)
+            {
+                kromozomListesi.RemoveAt(kromozomListesi.Count / 2);
+            }
+
+            eslestirilenCiftler = new string[kromozomListesi.Count];
+            for (int i = 0; i < kromozomListesi.Count; i++)
+            {
+                eslestirilenCiftler[i] = yeniKromozom[Convert.ToInt32(kromozomListesi[i])];
+            }
+        }
+
+        private void CrossingOverIslemi(string[] yeniKromozom, double pc)
+        {
+            PopulasyonYeniVersiyon(yeniKromozom, pc);
+            
+            pos = new int[kromozomListesi.Count / 2];
+            for (int i = 0; i < pos.Length; i++)
+            {
+                pos[i] = random.Next(1, 32);
+            }
+
+            eslestirilenCiftler = new string[kromozomListesi.Count];
+            for (int i = 0; i < kromozomListesi.Count; i++)
+            {
+                eslestirilenCiftler[i] = yeniKromozom[Convert.ToInt32(kromozomListesi[i])];
+            }
+
+            for (int i = 0; i < eslestirilenCiftler.Length; i++)
+            {
+                iCiftlerYeni = eslestirilenCiftler[i].ToCharArray();
+                iCiftlerEski = eslestirilenCiftler[i].ToCharArray();
+
+                iTeklerYeni = eslestirilenCiftler[i + 1].ToCharArray();
+                iTeklerEski = eslestirilenCiftler[i + 1].ToCharArray();
+
+                for (int j = pos[i / 2]; j < iCiftlerYeni.Length; j++)
+                {
+                    iCiftlerYeni[j] = iTeklerEski[j];
+                    iTeklerYeni[j] = iCiftlerEski[j];
+                }
+
+                for (int j = 0; j < iCiftlerYeni.Length; j++)
+                {
+                    degerCift = degerCift + iCiftlerYeni[j].ToString();
+                    degerTek = degerTek + iTeklerYeni[j].ToString();
+                }
+
+                eslestirilenCiftler[i] = degerCift;
+                eslestirilenCiftler[i + 1] = degerTek;
+
+                degerCift = "";
+                degerTek = "";
+                i = i + 1;
+            }
+        }
+
+        public void YeniBireyEklemesi(string[] yeniKromozom, double pc)
+        {
+            CrossingOverIslemi(yeniKromozom, pc);
+
+            for (int i = 0; i < kromozomListesi.Count; i++)
+            {
+                yeniKromozom[Convert.ToInt32(kromozomListesi[i])] = eslestirilenCiftler[i];
+                yeniKromozom[Convert.ToInt32(kromozomListesi[i + 1])] = eslestirilenCiftler[i + 1];
+                i = i + 1;
+            }
+        }
+    }
+}

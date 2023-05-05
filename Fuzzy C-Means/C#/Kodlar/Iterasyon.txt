@@ -1,0 +1,47 @@
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Fuzzy
+{
+    class Iterasyon
+    {
+        private decimal deger = 0;
+        private bool cevap = true;
+
+        public int sayi = 1;
+
+        UyelikDereceleri uyelik = new UyelikDereceleri();
+        KumeMerkezleri kumeMerkez = new KumeMerkezleri();
+
+        public void Iterasyon_Hesapla(double m, decimal[,] eskiDerece, decimal[,] yeniDerece, decimal epsilon, ArrayList veriX, ArrayList veriY, ArrayList kumeX, ArrayList kumeY)
+        {
+            while (cevap == true)
+            {
+                for (int i = 0; i < kumeX.Count; i++)
+                {
+                    for (int j = 0; j < veriX.Count; j++)
+                    {
+                        deger = deger + Convert.ToDecimal(Math.Abs(Convert.ToDouble(yeniDerece[i, j] - eskiDerece[i, j])));
+                        eskiDerece[i, j] = yeniDerece[i, j];
+                    }
+                }
+                if (deger <= epsilon)
+                {
+                    cevap = false;
+                }
+                else
+                {
+                    kumeMerkez.Yeni_Kume_Merkezi_Tek_Eksen(m, yeniDerece, veriX, kumeX);
+                    kumeMerkez.Yeni_Kume_Merkezi_Tek_Eksen(m, yeniDerece, veriY, kumeY);
+                    uyelik.Uyelik_Degerleri(m, yeniDerece, veriX, veriY, kumeX, kumeY);
+                    sayi++;
+                }
+                deger = 0;
+            }
+        }
+    }
+}

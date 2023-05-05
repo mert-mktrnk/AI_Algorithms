@@ -1,0 +1,41 @@
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Kumeleme
+{
+    class RandomVeri
+    {
+        Random intDeger = new Random();
+
+        private int x;
+        private double y;
+        private int degerX;
+        private int degerY;
+        private int deger;
+
+        public void Random_Deger_Atama(int kumeSayisi, ArrayList kMX, bool cevap)
+        {
+            degerX = 2225;
+            degerY = 1700;
+            if (cevap == true)
+            {
+                deger = degerX;
+            }
+            else
+            {
+                deger = degerY;
+            }
+            y = 0.37513;
+            for (int i = 0; i < kumeSayisi; i++)
+            {
+                x = intDeger.Next(20, deger);
+                kMX.Add(Convert.ToInt32(x * y));
+            }
+        }
+
+    }
+}

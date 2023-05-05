@@ -1,0 +1,37 @@
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Kumeleme
+{
+    static class Donusturme
+    {
+        public static void Text_ArrayList_Donusturme(ArrayList a, StreamWriter b)
+        {
+            foreach (object obj in a)
+            {
+                b.WriteLine(obj);
+            }
+        }
+
+        public static void Text_ArrayList_Donusturme(ArrayList a, StreamReader b)
+        {
+            string okuma = "";
+
+            while (okuma != null)
+            {
+                okuma = b.ReadLine();
+
+                if (okuma != null)
+                {
+                    a.Add(Convert.ToInt32(okuma));
+                }
+            }
+            okuma = "";
+        }
+    }
+}

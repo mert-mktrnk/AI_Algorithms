@@ -1,0 +1,63 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows.Forms;
+
+namespace ArtificialNerualNetworks
+{
+    static class Egitim
+    {
+        static private int sayi = 0;
+        static private bool cevap = true;
+        static private double cikisDegeri;
+
+        static Aktiflesme aktiflesme = new Aktiflesme();
+        static Hata hata = new Hata();
+        static Agirlik agirlik = new Agirlik();
+
+        static public int EgitimDongusuHataDegeri(double hataDegeri, double arzuEdilenCikis, double egitimHizi, double[] ona, double[] girisDegerleri, double[] gizliNoronDegerleri, double[] cikisNoronDegeri, double[] sigmaCikis, double[] sigmaGizliNoron, List<double[]> gizliNoronlarIcin, List<double[]> cikisNoronuIcin)
+        {
+            while (cevap == true)
+            {
+                cikisDegeri = cikisNoronDegeri[0];
+                aktiflesme.AktiflesmeHesaplamasi(gizliNoronlarIcin, girisDegerleri, gizliNoronDegerleri);
+                aktiflesme.AktiflesmeHesaplamasi(cikisNoronuIcin, gizliNoronDegerleri, cikisNoronDegeri);
+
+                sigmaCikis[0] = hata.SigmaDegeriBulmaCikis(arzuEdilenCikis, cikisNoronDegeri[0], sigmaCikis[0]);
+                for (int j = 0; j < gizliNoronDegerleri.Length; j++)
+                {
+                    sigmaGizliNoron[j] = hata.SigmaDegeriBulmaGizliNoron(arzuEdilenCikis, gizliNoronDegerleri[j], sigmaCikis[0], sigmaGizliNoron[j], ona[j]);
+                }
+
+                agirlik.YeniAgirlikDegerleri(gizliNoronlarIcin, egitimHizi, sigmaGizliNoron, gizliNoronDegerleri);
+                agirlik.YeniAgirlikDegerleri(cikisNoronuIcin, egitimHizi, sigmaCikis, cikisNoronDegeri);
+                sayi++;
+                if (cikisNoronDegeri[0] - cikisDegeri <= hataDegeri)
+                {
+                    cevap = false;
+                }
+            }
+            return sayi;
+        }
+
+        static public void EgitimDongusuEpokSayisi(int epokSayisi, double arzuEdilenCikis, double egitimHizi, double[] ona, double[] girisDegerleri, double[] gizliNoronDegerleri, double[] cikisNoronDegeri, double[] sigmaCikis, double[] sigmaGizliNoron, List<double[]> gizliNoronlarIcin, List<double[]> cikisNoronuIcin)
+        {
+            for (int i = 0; i < epokSayisi; i++)
+            {
+                aktiflesme.AktiflesmeHesaplamasi(gizliNoronlarIcin, girisDegerleri, gizliNoronDegerleri);
+                aktiflesme.AktiflesmeHesaplamasi(cikisNoronuIcin, gizliNoronDegerleri, cikisNoronDegeri);
+
+                sigmaCikis[0] = hata.SigmaDegeriBulmaCikis(arzuEdilenCikis, cikisNoronDegeri[0], sigmaCikis[0]);
+                for (int j = 0; j < gizliNoronDegerleri.Length; j++)
+                {
+                    sigmaGizliNoron[j] = hata.SigmaDegeriBulmaGizliNoron(arzuEdilenCikis, gizliNoronDegerleri[j], sigmaCikis[0], sigmaGizliNoron[j], ona[j]);
+                }
+
+                agirlik.YeniAgirlikDegerleri(gizliNoronlarIcin, egitimHizi, sigmaGizliNoron, gizliNoronDegerleri);
+                agirlik.YeniAgirlikDegerleri(cikisNoronuIcin, egitimHizi, sigmaCikis, cikisNoronDegeri);
+            }
+        }
+    }
+}

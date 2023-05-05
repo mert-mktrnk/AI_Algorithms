@@ -1,0 +1,24 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows.Forms;
+
+namespace ArtificialNerualNetworks
+{
+    class Hata
+    {
+        public double SigmaDegeriBulmaCikis(double arzuEdilenCikis, double cikisNoronuCikisDegeri, double sigmaCikis)
+        {
+            sigmaCikis = cikisNoronuCikisDegeri * (1 - cikisNoronuCikisDegeri) * (arzuEdilenCikis - cikisNoronuCikisDegeri);
+            return sigmaCikis;
+        }
+
+        public double SigmaDegeriBulmaGizliNoron(double arzuEdilenCikis, double gizliNoronCikisDegerleri, double sigmaCikis, double sigmaGizliNoron, double agirlikOna)
+        {
+            sigmaGizliNoron = gizliNoronCikisDegerleri * (1 - gizliNoronCikisDegerleri) * sigmaCikis * agirlikOna;
+            return sigmaGizliNoron;
+        }
+    }
+}

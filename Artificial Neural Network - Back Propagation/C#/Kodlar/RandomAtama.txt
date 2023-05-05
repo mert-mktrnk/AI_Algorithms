@@ -1,0 +1,26 @@
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows.Forms;
+
+namespace ArtificialNerualNetworks
+{
+    static class RandomAtama
+    {
+        static public void RandomDegerAtama(List<double[]> arrayLists)
+        {
+            Random random = new Random();
+
+            for (int i = 0; i < arrayLists.Count; i++)
+            {
+                for (int j = 0; j < arrayLists[i].Length; j++)
+                {
+                    arrayLists[i][j] = random.NextDouble();
+                }
+            }
+        }
+    }
+}

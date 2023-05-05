@@ -1,0 +1,191 @@
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.IO;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows.Forms;
+
+namespace GercekKodluGA
+{
+    public partial class GercekKodluGA : Form
+    {
+        #region Degiskenler
+
+        StreamWriter Yaz;
+
+        private int JenerasyonSayisi;
+        private int PopulasyonBuyuklugu;
+        private int IterasyonSirasi;
+
+        private double MutasyonOrani;
+        private double CaprazlamaOrani;
+        private double UygunlukDegeri;
+        private double EnIyiUygunluk = 0;
+        
+        private int[] PAlt;
+        private int[] PUst;
+
+        private double[] YeniUygunlukDegeri;
+        private double[] EskiUygunlukDegeri;
+        private double[] Seleksiyon;
+        private double[] Kumulatif;
+
+        private double[,] EskiKromozom;
+        private double[,] YeniKromozom;
+
+        private ArrayList TumUygunlukDegerleri;
+
+        #endregion
+
+        public GercekKodluGA()
+        {
+            InitializeComponent();
+        }
+
+        private void ButtonBaslat_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                #region Degiskenlere Deger Atama
+
+                CaprazlamaOrani = Convert.ToDouble(TextBoxCO.Text) / 100;
+                MutasyonOrani = Convert.ToDouble(TextBoxMO.Text) / 100;
+                JenerasyonSayisi = Convert.ToInt32(TextBoxJS.Text);
+                PopulasyonBuyuklugu = Convert.ToInt32(TextBoxPB.Text);
+
+                PAlt = new int[2] { -3, -2 };
+                PUst = new int[2] { 3, 2 };
+
+                EskiKromozom = new double[PAlt.Length, PopulasyonBuyuklugu];
+                YeniKromozom = new double[PAlt.Length, PopulasyonBuyuklugu];
+                YeniUygunlukDegeri = new double[PopulasyonBuyuklugu];
+                EskiUygunlukDegeri = new double[PopulasyonBuyuklugu];
+                Seleksiyon = new double[PopulasyonBuyuklugu];
+                Kumulatif = new double[Seleksiyon.Length];
+
+                TumUygunlukDegerleri = new ArrayList();
+
+                #endregion
+
+                UygunlukDegeriHesaplama uygunlukDegeriHesaplama = new UygunlukDegeriHesaplama();
+                DogalSecim dogalSecim = new DogalSecim();
+                Caprazlama caprazlama = new Caprazlama();
+                Mutasyon mutasyon = new Mutasyon();
+                RandomOlusturma.BaslangicPopulasyonu(PopulasyonBuyuklugu, PAlt, PUst, EskiKromozom);
+
+                uygunlukDegeriHesaplama.AmacFonksiyonuHesaplama(YeniUygunlukDegeri, EskiKromozom);
+
+                for (int i = 0; i < JenerasyonSayisi; i++)
+                {
+                    dogalSecim.RuletTekerlegi(YeniUygunlukDegeri, Seleksiyon, Kumulatif, EskiKromozom, YeniKromozom);
+                    
+                    caprazlama.CrossingOverIslemi(CaprazlamaOrani, PopulasyonBuyuklugu, YeniKromozom);
+
+                    if (i != JenerasyonSayisi - 1)
+                    {
+                        mutasyon.MutasyonIslemi(PAlt, PopulasyonBuyuklugu, YeniKromozom, EskiKromozom, MutasyonOrani);
+                    }
+
+                    uygunlukDegeriHesaplama.AmacFonksiyonuHesaplama(YeniUygunlukDegeri, YeniKromozom);
+
+                    for (int j = 0; j < YeniUygunlukDegeri.Length; j++)
+                    {
+                        EskiUygunlukDegeri[j] = YeniUygunlukDegeri[j];
+                    }
+
+                    Array.Sort(EskiUygunlukDegeri);
+
+                    UygunlukDegeri = EskiUygunlukDegeri[0];
+
+                    if (UygunlukDegeri > EnIyiUygunluk)
+                    {
+                        IterasyonSirasi = i + 1;
+                        EnIyiUygunluk = UygunlukDegeri;
+                    }
+                    TumUygunlukDegerleri.Add(UygunlukDegeri);
+                }
+
+                TextBoxISEnIyiUygunlukDegeri.Text = UygunlukDegeri.ToString();
+                TextBoxIterasyonSirasi.Text = IterasyonSirasi.ToString();
+                TextBoxEnIyiUygunlukDegeri.Text = EnIyiUygunluk.ToString();
+                TextBoxToplamUygunluk.Text = dogalSecim.ToplamUygunlukDegeri(YeniUygunlukDegeri).ToString();
+                ButtonTemizle.Enabled = true;
+                ButtonCikti.Enabled = true;
+                ButtonBaslat.Enabled = false;
+            }
+            catch
+            {
+                MessageBox.Show("Ýþleminiz baþarýlý bir þekilde kaydedilmiþtir.", "Bilgi", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+        }
+
+        private void ButtonCikti_Click(object sender, EventArgs e)
+        {
+            int i = 0;
+            if (MessageBox.Show("Çýktý almak istediðine emin misin?", "Uyarý", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+            {
+                Yaz = new StreamWriter("Degerler.txt");
+                Yaz.WriteLine("Çýktýlar");
+                Yaz.WriteLine("--------------------");
+                foreach (object obj in TumUygunlukDegerleri)
+                {
+                    Yaz.WriteLine(i.ToString() + obj);
+                    i = i + 1;
+                }
+                Yaz.WriteLine("--------------------");
+                Yaz.WriteLine("Tüm Ýterasyon Boyunca En Ýyi Uygunluk Deðeri :");
+                Yaz.WriteLine(EnIyiUygunluk.ToString());
+                Yaz.WriteLine("--------------------");
+                Yaz.WriteLine("Ýterasyon Sýrasý :");
+                Yaz.WriteLine(IterasyonSirasi.ToString());
+                Yaz.WriteLine("--------------------");
+                Yaz.WriteLine("Toplam " + JenerasyonSayisi.ToString() + " Ýterasyon Sonundaki Uygunluk Deðeri :");
+                Yaz.WriteLine(UygunlukDegeri.ToString());
+                Yaz.Close();
+                MessageBox.Show("Ýþleminiz baþarýlý bir þekilde kaydedilmiþtir.", "Bilgi", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+        }
+
+        private void ButtonCikis_Click(object sender, EventArgs e)
+        {
+            if (MessageBox.Show("Çýkmak istediðinize emin misiniz?", "Çýkýþ", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+            {
+                Application.Exit();
+            }
+            else
+                Temizle();
+        }
+
+        private void ButtonTemizle_Click(object sender, EventArgs e)
+        {
+            Temizle();
+        }
+
+        private void Temizle()
+        {
+            ButtonBaslat.Enabled = true;
+            ButtonTemizle.Enabled = false;
+            ButtonCikti.Enabled = false;
+            TextBoxEnIyiUygunlukDegeri.Text = "0";
+            TextBoxISEnIyiUygunlukDegeri.Text = "0";
+            TextBoxIterasyonSirasi.Text = "0";
+            TextBoxToplamUygunluk.Text = "0";
+            TextBoxPB.Text = "20";
+            TextBoxJS.Text = "1000";
+            TextBoxCO.Text = "25";
+            TextBoxMO.Text = "10";
+            Array.Clear(YeniUygunlukDegeri, 0, YeniUygunlukDegeri.Length);
+            Array.Clear(EskiUygunlukDegeri, 0, EskiUygunlukDegeri.Length);
+            Array.Clear(Seleksiyon, 0, Seleksiyon.Length);
+            Array.Clear(Kumulatif, 0, Kumulatif.Length);
+            Array.Clear(EskiKromozom, 0, EskiKromozom.Length);
+            Array.Clear(YeniKromozom, 0, YeniKromozom.Length);
+            TumUygunlukDegerleri.Clear();
+        }
+    }
+}

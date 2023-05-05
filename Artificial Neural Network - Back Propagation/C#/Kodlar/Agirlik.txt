@@ -1,0 +1,27 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows.Forms;
+
+namespace ArtificialNerualNetworks
+{
+    class Agirlik
+    {
+        private double agirlik = 0;
+
+        public void YeniAgirlikDegerleri(List<double[]> agirliklar, double egitimHizi, double[] sigma, double[] noronDegerler)
+        {
+            for (int i = 0; i < agirliklar.Count; i++)
+            {
+                for (int j = 0; j < agirliklar[i].Length; j++)
+                {
+                    agirlik = agirlik + (egitimHizi * sigma[i] * noronDegerler[i]);
+                    agirliklar[i][j] = agirliklar[i][j] + agirlik;
+                }
+                agirlik = 0;
+            }
+        }
+    }
+}

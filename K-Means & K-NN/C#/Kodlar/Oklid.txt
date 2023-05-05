@@ -1,0 +1,60 @@
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Kumeleme
+{
+    class Oklid
+    {
+        private double sonuc = 0;
+
+        private double degerX = 0;
+        private double degerY = 0;
+
+        public void Oklid_Mesafe_Hesaplamasi(int[,] yeniYerler, int[,] eskiYerler, ArrayList elemanx, ArrayList elemany, ArrayList kumeMerkezix, ArrayList kumeMerkeziy)
+        {
+            double[] yeniveri = new double[kumeMerkezix.Count];
+            double[] eskiveri = new double[kumeMerkezix.Count];
+
+            for (int i = 0; i < elemanx.Count; i++)
+            {
+                for (int j = 0; j < kumeMerkezix.Count; j++)
+                {
+                    degerX = degerX + Convert.ToDouble(kumeMerkezix[j]) - Convert.ToDouble(elemanx[i]);
+                    degerX = degerX * degerX;
+                    degerY = degerY + Convert.ToDouble(kumeMerkeziy[j]) - Convert.ToDouble(elemany[i]);
+                    degerY = degerY * degerY;
+                    sonuc = Math.Sqrt(degerX + degerY);
+                    yeniveri[j] = sonuc;
+                    eskiveri[j] = sonuc;
+                    degerX = 0;
+                    degerY = 0;
+                }
+
+                Oklid_Mesafe_Deger(yeniYerler, eskiYerler, yeniveri, eskiveri, i);
+            }
+        }
+
+        private void Oklid_Mesafe_Deger(int[,] yeniVeri, int[,] eskiVeri, double[] yV, double[] eV, int a)
+        {
+            Array.Sort(yV);
+
+            for (int j = 0; j < eV.Length; j++)
+            {
+                if (yV[0] == eV[j])
+                {
+                    yeniVeri[j, a] = a;
+                    eskiVeri[j, a] = a;
+                }
+                else
+                {
+                    yeniVeri[j, a] = -1;
+                    eskiVeri[j, a] = -1;
+                }
+            }
+        }
+    }
+}

@@ -1,0 +1,24 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace IkiliKodluGenetikAlgoritma
+{
+    class BitRandom
+    {
+        Random random = new Random();
+
+        public void RandomBitOlusturma(string[] eskiKromozom, int deger)
+        {
+            for (int i = 0; i < eskiKromozom.Length; i++)
+            {
+                for (int j = 0; j < deger; j++)
+                {
+                    eskiKromozom[i] = eskiKromozom[i] + (random.Next() % 2).ToString();
+                }
+            }
+        }
+    }
+}

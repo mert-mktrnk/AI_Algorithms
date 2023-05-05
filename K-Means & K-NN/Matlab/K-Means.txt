@@ -1,0 +1,97 @@
+clear all
+%Küme ve nokta sayýsý
+kumeSayisi = 2;
+noktaSayisi = 250;
+
+clr = 'rgbk';
+%Veri noktalarýnýn rastgele oluþturulmasý
+veri = [randn(noktaSayisi,2)*0.75 + ones(noktaSayisi,2);randn(noktaSayisi,2)*0.75 - ones(noktaSayisi,2)];
+veriBoyutu = length(veri(1,:));
+toplamNokta = length(veri(:,1));
+
+%Küme merkezlerinin rastgele oluþturulmasý
+minVeri = min(veri);
+maxVeri = max(veri);
+farkVeri = maxVeri - minVeri;
+kume = ones(kumeSayisi, veriBoyutu).*rand(kumeSayisi,veriBoyutu);
+for i = 1:kumeSayisi
+    kume(i,:) = kume(i,:).*farkVeri;
+    kume(i,:) = kume(i,:)+minVeri;
+end
+
+%Baþlangýçtaki durumunun çizilmesi
+figure;
+hold on;
+plot(veri(:,1),veri(:,2),'.');
+title 'K-Ortalama(K-Means) Yöntemi';
+plot(kume(:,1),kume(:,2),'*');
+
+%Durdurma Kriteri
+pozisyonFarki = 1.;
+
+%Ýterasyon baþlangýcý
+while pozisyonFarki > 0.0
+    kumeAtama = [];
+    %En yakýn kümeye herbir veri noktasýnýn atanmasý
+    for i = 1:toplamNokta
+        minFark = (veri(i,:)-kume(1,:));
+        minFark = minFark* minFark';
+        aktifAtama = 1;
+        for j = 2: kumeSayisi
+            minFark2 = (veri(i,:) - kume(j,:));
+            minFark2 = minFark2* minFark2';
+            if(minFark >=minFark2)
+                aktifAtama = j;
+                minFark = minFark2;
+            end
+        end
+        kumeAtama = [kumeAtama;aktifAtama];
+    end
+    eskiKume = kume;
+    
+    %Kümelerin konumlarýnýn yeniden hesaplanmasý
+    kume  = zeros(kumeSayisi,veriBoyutu);
+    kumeNoktaSayisi = zeros(kumeSayisi,1);
+    
+    for i = 1: length(kumeAtama)
+        kume(kumeAtama(i),:) = kume(kumeAtama(i),:)+veri(i,:);
+        kumeNoktaSayisi(kumeAtama(i),1)=kumeNoktaSayisi(kumeAtama(i),1)+1;
+    end
+    
+    for i = 1:kumeSayisi
+        if(kumeNoktaSayisi(i,1)~=0)
+            kume(i,:) = kume(i,:)/kumeNoktaSayisi(i,1);
+        else
+            kume(i,:) =(rand(1,veriBoyutu).*farkVeri)+minVeri;
+        end
+    end
+    
+    %Durdurma kriterini hesapla
+    pozisyonFarki = sum(sum((kume-eskiKume).^2));
+end
+%Son durumun çizdirilmesi
+figure;
+hold on;
+kume1 = find(kumeAtama == 1);
+kume2 = find(kumeAtama == 2);
+plot(veri(kume1,1),veri(kume1,2),'.','Color',clr(1));
+plot(veri(kume2,1),veri(kume2,2),'.','Color',clr(2));
+plot(kume(:,1),kume(:,2),'*','Color',clr(4));
+
+%Girilen yeni verinin hangi kümeye ait olduðu sorgulanmasý
+yeniVeri = [];
+yeniVeri = input('Yeni verinin koordinatýný giriniz: ([x,y]):');
+%Örnek veri giriþi:[2.34,1.23]
+minFark = (yeinVeri(1,:) - kume(1,:));
+minFark = minFark * minFark';
+aktifAtama = 1;
+for j = 2: kumeSayisi
+    minFark2 = (yeniVeri(1,:)-kume(1,:));
+    minFark2 = minFark2* minFark2';
+    if(minFark >= minFark2)
+        aktifAtama = j;
+        minFark = minFark2;
+    end
+end
+disp([num2str(yeniVeri),'koordinatlý veri',num2str(aktifAtama),'nolu kümeye aittir.']);
+plot(yeniVeri(1),yeniVeri(2),'+','Color',clr(aktifAtama));

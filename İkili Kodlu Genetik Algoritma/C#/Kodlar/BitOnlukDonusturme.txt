@@ -1,0 +1,40 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace IkiliKodluGenetikAlgoritma
+{
+    class BitOnlukDonusturme
+    {
+        private double deger = 0;
+
+        public void BitOnluk(int x1, int x2, string[] kromozom, double[,] genDegeri)
+        {
+            for (int i = 0; i < kromozom.Length; i++)
+            {
+                char[] kromozomDegerleri = kromozom[i].ToCharArray();
+                for (int j = 0; j < x1; j++)
+                {
+                    deger = deger + (Convert.ToDouble(kromozomDegerleri[j].ToString()) * Math.Pow(2, Convert.ToDouble(x1 - 1 - j)));
+                }
+                deger = -3 + (deger * ((12.1 - (-3)) / (Math.Pow(2, x1) - 1)));
+                genDegeri[0, i] = deger;
+
+                deger = 0;
+
+                for (int j = x1; j < (x1 + x2); j++)
+                {
+                    deger = deger + (Convert.ToDouble(kromozomDegerleri[j].ToString()) * Math.Pow(2, Convert.ToDouble((x1 + x2) - 1 - j)));
+                }
+                deger = 4.1 + (deger * ((5.8 - 4.1) / (Math.Pow(2, x2) - 1)));
+                genDegeri[1, i] = deger;
+
+                deger = 0;
+
+                Array.Clear(kromozomDegerleri, 0, kromozomDegerleri.Length);
+            }
+        }
+    }
+}

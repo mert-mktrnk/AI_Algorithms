@@ -1,0 +1,63 @@
+%Ikili Genetik Algoritma Uygulamasi
+%f(X1,X2) = 21.5 + (X1*sin(4*pi*X1)) + (X2*sin(20*pi*X2))
+%Fonksiyonun maksimum degerleri bulunacak
+
+GN = input('Jenerasyon Sayisi: ');
+PN = input('Populasyon Buyuklugu: ');
+CO = input('Carplazma Orani(%): ');
+MO = input('Mutasyon Oraný(%): ');
+Hassasiyet = input('Ondalýk Hassasiyet: ');
+Xmin = [-3 4.1];
+Xmax = [12.1 5.8];
+BestFitness = 0;
+Params = zeros(PN, 2);
+Fitness = zeros(PN, 1);
+resultFile= sprintf('Sonuclar.txt');
+fid = fopen(resultFile,'wt');
+
+%Baslangic Populasyonunun Olusturulmasi
+X1Range = (Xmax(1) - Xmin(1)) * (10 ^ Hassasiyet);
+X2Range = (Xmax(2) - Xmin(2)) * (10 ^ Hassasiyet);
+X1KacBit = length(de2bi(X1Range));
+X2KacBit = length(de2bi(X2Range));
+ToplamKacBit = X1KacBit + X2KacBit;
+Population = round(rand(PN,ToplamKacBit));
+
+fprintf(fid,'\nGeneration: %d Population: %d Crossover: %.2f Mutasyon: %.2f Bit Sayýsý: %d\n\n',GN,PN,CO/100,MO/100,ToplamKacBit);
+fprintf(fid,'Nesil\t\tToplam Uygunluk\t\tEn Iyi Uygunluk\t\tX1\t\tX2\n');
+
+%Uygunluk degerlerinin hesaplanmasi
+for j = 1 : 1 : PN
+    decimalX1 = bi2de(Population(j, 1:X1KacBit));
+    decimalX2 = bi2de(Population(j, X1KacBit + 1: ToplamKacBit));
+    X1 = Xmin(1) + (decimalX1 * ((Xmax(1) - Xmin(1)) / (2 ^ X1KacBit - 1)));
+    X2 = Xmin(2) + (decimalX2 * ((Xmax(2) - Xmin(2)) / (2 ^ X2KacBit - 1)));
+    Params(j,1) = X1;
+    Params(j,2) = X2;
+    Fitness(j,1) = 21.5 + (X1*sin(4*pi*X1)) + (X2*sin(20*pi*X2))
+end
+
+[maxFitness, maxIndex] = max(Fitness);
+fprintf(fid,'Ilk\t\t\t\t%.3f\t\t\t\t%.3f\t\t%.4f\t\t%.4f\n', sum(Fitness), max(Fitness), Params(maxIndex, 1), Params(maxIndex,2));
+
+tic
+for i = 1 : GN
+    if(maxFitness > BestFitness)
+        BestFitness = maxFitness;
+        BestGN = i;
+    end
+    
+    %Dogal Secilim Islemi
+    Probability = Fitness / sum(Fitness);
+    Cumulative = cumsum(Probability);
+    RandomSNum = rand(PN,1);
+    
+    for j = 1 : PN
+        index = find(RandomSNum < Cumulutive(j));
+        RandomSNum(index) = j * ones(size(index));
+    end
+    
+    Population = Population(RandomSNum,:);
+    
+    %Carplazma Islemi
+    %Burada Kaldin

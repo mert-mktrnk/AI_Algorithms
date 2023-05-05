@@ -1,0 +1,327 @@
+namespace Kumeleme
+{
+    partial class Algoritma
+    {
+        /// <summary>
+        /// Required designer variable.
+        /// </summary>
+        private System.ComponentModel.IContainer components = null;
+
+        /// <summary>
+        /// Clean up any resources being used.
+        /// </summary>
+        /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing && (components != null))
+            {
+                components.Dispose();
+            }
+            base.Dispose(disposing);
+        }
+
+        #region Windows Form Designer generated code
+
+        /// <summary>
+        /// Required method for Designer support - do not modify
+        /// the contents of this method with the code editor.
+        /// </summary>
+        private void InitializeComponent()
+        {
+            this.components = new System.ComponentModel.Container();
+            this.GroupBoxCizim = new System.Windows.Forms.GroupBox();
+            this.ContextMenuStripEkler = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.ToolStripMenuItemYenile = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripSeparator();
+            this.ToolStripMenuItemCikis = new System.Windows.Forms.ToolStripMenuItem();
+            this.GroupBoxAyarlamalar = new System.Windows.Forms.GroupBox();
+            this.LabelIterasyonDegeri = new System.Windows.Forms.Label();
+            this.LabelIterasyonSayisi = new System.Windows.Forms.Label();
+            this.TextBoxYakinlikDegeri = new System.Windows.Forms.TextBox();
+            this.LabelYakinlikDegeri = new System.Windows.Forms.Label();
+            this.ButtonVeriEkle = new System.Windows.Forms.Button();
+            this.ButtonTemizle = new System.Windows.Forms.Button();
+            this.LabelYeniVeriY = new System.Windows.Forms.Label();
+            this.LabelYeniVeriX = new System.Windows.Forms.Label();
+            this.TextBoxYeniVeriY = new System.Windows.Forms.TextBox();
+            this.TextBoxYeniVeriX = new System.Windows.Forms.TextBox();
+            this.ButtonOlustur = new System.Windows.Forms.Button();
+            this.LabelElemanSayisi = new System.Windows.Forms.Label();
+            this.LabelKumeSayisi = new System.Windows.Forms.Label();
+            this.TextBoxElemanSayisi = new System.Windows.Forms.TextBox();
+            this.TextBoxKumeSayisi = new System.Windows.Forms.TextBox();
+            this.ToolTipVeri = new System.Windows.Forms.ToolTip(this.components);
+            this.ToolTipKume = new System.Windows.Forms.ToolTip(this.components);
+            this.ContextMenuStripEkler.SuspendLayout();
+            this.GroupBoxAyarlamalar.SuspendLayout();
+            this.SuspendLayout();
+            // 
+            // GroupBoxCizim
+            // 
+            this.GroupBoxCizim.BackColor = System.Drawing.Color.White;
+            this.GroupBoxCizim.ContextMenuStrip = this.ContextMenuStripEkler;
+            this.GroupBoxCizim.Enabled = false;
+            this.GroupBoxCizim.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(162)));
+            this.GroupBoxCizim.Location = new System.Drawing.Point(128, -1);
+            this.GroupBoxCizim.MaximumSize = new System.Drawing.Size(850, 650);
+            this.GroupBoxCizim.MinimumSize = new System.Drawing.Size(850, 650);
+            this.GroupBoxCizim.Name = "GroupBoxCizim";
+            this.GroupBoxCizim.Size = new System.Drawing.Size(850, 650);
+            this.GroupBoxCizim.TabIndex = 1;
+            this.GroupBoxCizim.TabStop = false;
+            // 
+            // ContextMenuStripEkler
+            // 
+            this.ContextMenuStripEkler.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.ToolStripMenuItemYenile,
+            this.toolStripMenuItem1,
+            this.ToolStripMenuItemCikis});
+            this.ContextMenuStripEkler.Name = "ContextMenuStrip";
+            this.ContextMenuStripEkler.Size = new System.Drawing.Size(148, 54);
+            // 
+            // ToolStripMenuItemYenile
+            // 
+            this.ToolStripMenuItemYenile.Name = "ToolStripMenuItemYenile";
+            this.ToolStripMenuItemYenile.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Y)));
+            this.ToolStripMenuItemYenile.Size = new System.Drawing.Size(147, 22);
+            this.ToolStripMenuItemYenile.Text = "Yenile";
+            this.ToolStripMenuItemYenile.Click += new System.EventHandler(this.YenileToolStripMenuItem_Click);
+            // 
+            // toolStripMenuItem1
+            // 
+            this.toolStripMenuItem1.Name = "toolStripMenuItem1";
+            this.toolStripMenuItem1.Size = new System.Drawing.Size(144, 6);
+            // 
+            // ToolStripMenuItemCikis
+            // 
+            this.ToolStripMenuItemCikis.Name = "ToolStripMenuItemCikis";
+            this.ToolStripMenuItemCikis.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.F4)));
+            this.ToolStripMenuItemCikis.Size = new System.Drawing.Size(147, 22);
+            this.ToolStripMenuItemCikis.Text = "Çýkýþ";
+            this.ToolStripMenuItemCikis.Click += new System.EventHandler(this.ToolStripMenuItemCikis_Click);
+            // 
+            // GroupBoxAyarlamalar
+            // 
+            this.GroupBoxAyarlamalar.ContextMenuStrip = this.ContextMenuStripEkler;
+            this.GroupBoxAyarlamalar.Controls.Add(this.LabelIterasyonDegeri);
+            this.GroupBoxAyarlamalar.Controls.Add(this.LabelIterasyonSayisi);
+            this.GroupBoxAyarlamalar.Controls.Add(this.TextBoxYakinlikDegeri);
+            this.GroupBoxAyarlamalar.Controls.Add(this.LabelYakinlikDegeri);
+            this.GroupBoxAyarlamalar.Controls.Add(this.ButtonVeriEkle);
+            this.GroupBoxAyarlamalar.Controls.Add(this.ButtonTemizle);
+            this.GroupBoxAyarlamalar.Controls.Add(this.LabelYeniVeriY);
+            this.GroupBoxAyarlamalar.Controls.Add(this.LabelYeniVeriX);
+            this.GroupBoxAyarlamalar.Controls.Add(this.TextBoxYeniVeriY);
+            this.GroupBoxAyarlamalar.Controls.Add(this.TextBoxYeniVeriX);
+            this.GroupBoxAyarlamalar.Controls.Add(this.ButtonOlustur);
+            this.GroupBoxAyarlamalar.Controls.Add(this.LabelElemanSayisi);
+            this.GroupBoxAyarlamalar.Controls.Add(this.LabelKumeSayisi);
+            this.GroupBoxAyarlamalar.Controls.Add(this.TextBoxElemanSayisi);
+            this.GroupBoxAyarlamalar.Controls.Add(this.TextBoxKumeSayisi);
+            this.GroupBoxAyarlamalar.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(162)));
+            this.GroupBoxAyarlamalar.Location = new System.Drawing.Point(0, -1);
+            this.GroupBoxAyarlamalar.Name = "GroupBoxAyarlamalar";
+            this.GroupBoxAyarlamalar.Size = new System.Drawing.Size(125, 650);
+            this.GroupBoxAyarlamalar.TabIndex = 2;
+            this.GroupBoxAyarlamalar.TabStop = false;
+            this.GroupBoxAyarlamalar.Text = "Ayarlamalar";
+            // 
+            // LabelIterasyonDegeri
+            // 
+            this.LabelIterasyonDegeri.AutoSize = true;
+            this.LabelIterasyonDegeri.Enabled = false;
+            this.LabelIterasyonDegeri.Location = new System.Drawing.Point(49, 290);
+            this.LabelIterasyonDegeri.Name = "LabelIterasyonDegeri";
+            this.LabelIterasyonDegeri.Size = new System.Drawing.Size(14, 13);
+            this.LabelIterasyonDegeri.TabIndex = 12;
+            this.LabelIterasyonDegeri.Text = "0";
+            // 
+            // LabelIterasyonSayisi
+            // 
+            this.LabelIterasyonSayisi.AutoSize = true;
+            this.LabelIterasyonSayisi.Enabled = false;
+            this.LabelIterasyonSayisi.Location = new System.Drawing.Point(9, 270);
+            this.LabelIterasyonSayisi.Name = "LabelIterasyonSayisi";
+            this.LabelIterasyonSayisi.Size = new System.Drawing.Size(100, 13);
+            this.LabelIterasyonSayisi.TabIndex = 11;
+            this.LabelIterasyonSayisi.Text = "Ýterasyon Sayýsý:";
+            // 
+            // TextBoxYakinlikDegeri
+            // 
+            this.TextBoxYakinlikDegeri.Enabled = false;
+            this.TextBoxYakinlikDegeri.Location = new System.Drawing.Point(12, 140);
+            this.TextBoxYakinlikDegeri.Name = "TextBoxYakinlikDegeri";
+            this.TextBoxYakinlikDegeri.Size = new System.Drawing.Size(100, 20);
+            this.TextBoxYakinlikDegeri.TabIndex = 3;
+            // 
+            // LabelYakinlikDegeri
+            // 
+            this.LabelYakinlikDegeri.AutoSize = true;
+            this.LabelYakinlikDegeri.Enabled = false;
+            this.LabelYakinlikDegeri.Location = new System.Drawing.Point(9, 124);
+            this.LabelYakinlikDegeri.Name = "LabelYakinlikDegeri";
+            this.LabelYakinlikDegeri.Size = new System.Drawing.Size(97, 13);
+            this.LabelYakinlikDegeri.TabIndex = 9;
+            this.LabelYakinlikDegeri.Text = "Yakýnlýk Deðeri:";
+            // 
+            // ButtonVeriEkle
+            // 
+            this.ButtonVeriEkle.Enabled = false;
+            this.ButtonVeriEkle.Location = new System.Drawing.Point(27, 244);
+            this.ButtonVeriEkle.Name = "ButtonVeriEkle";
+            this.ButtonVeriEkle.Size = new System.Drawing.Size(75, 23);
+            this.ButtonVeriEkle.TabIndex = 6;
+            this.ButtonVeriEkle.Text = "Veri Ekle";
+            this.ButtonVeriEkle.UseVisualStyleBackColor = true;
+            this.ButtonVeriEkle.Click += new System.EventHandler(this.ButtonVeriEkle_Click);
+            // 
+            // ButtonTemizle
+            // 
+            this.ButtonTemizle.Enabled = false;
+            this.ButtonTemizle.Location = new System.Drawing.Point(27, 616);
+            this.ButtonTemizle.Name = "ButtonTemizle";
+            this.ButtonTemizle.Size = new System.Drawing.Size(75, 24);
+            this.ButtonTemizle.TabIndex = 7;
+            this.ButtonTemizle.Text = "Temizle";
+            this.ButtonTemizle.UseVisualStyleBackColor = true;
+            this.ButtonTemizle.Click += new System.EventHandler(this.ButtonTemizle_Click);
+            // 
+            // LabelYeniVeriY
+            // 
+            this.LabelYeniVeriY.AutoSize = true;
+            this.LabelYeniVeriY.Enabled = false;
+            this.LabelYeniVeriY.Location = new System.Drawing.Point(9, 202);
+            this.LabelYeniVeriY.Name = "LabelYeniVeriY";
+            this.LabelYeniVeriY.Size = new System.Drawing.Size(64, 13);
+            this.LabelYeniVeriY.TabIndex = 5;
+            this.LabelYeniVeriY.Text = "Y Deðeri :";
+            // 
+            // LabelYeniVeriX
+            // 
+            this.LabelYeniVeriX.AutoSize = true;
+            this.LabelYeniVeriX.Enabled = false;
+            this.LabelYeniVeriX.Location = new System.Drawing.Point(9, 163);
+            this.LabelYeniVeriX.Name = "LabelYeniVeriX";
+            this.LabelYeniVeriX.Size = new System.Drawing.Size(64, 13);
+            this.LabelYeniVeriX.TabIndex = 6;
+            this.LabelYeniVeriX.Text = "X Deðeri :";
+            // 
+            // TextBoxYeniVeriY
+            // 
+            this.TextBoxYeniVeriY.Enabled = false;
+            this.TextBoxYeniVeriY.Location = new System.Drawing.Point(12, 218);
+            this.TextBoxYeniVeriY.MaxLength = 3;
+            this.TextBoxYeniVeriY.Name = "TextBoxYeniVeriY";
+            this.TextBoxYeniVeriY.Size = new System.Drawing.Size(100, 20);
+            this.TextBoxYeniVeriY.TabIndex = 5;
+            // 
+            // TextBoxYeniVeriX
+            // 
+            this.TextBoxYeniVeriX.Enabled = false;
+            this.TextBoxYeniVeriX.Location = new System.Drawing.Point(12, 179);
+            this.TextBoxYeniVeriX.MaxLength = 3;
+            this.TextBoxYeniVeriX.Name = "TextBoxYeniVeriX";
+            this.TextBoxYeniVeriX.Size = new System.Drawing.Size(100, 20);
+            this.TextBoxYeniVeriX.TabIndex = 4;
+            // 
+            // ButtonOlustur
+            // 
+            this.ButtonOlustur.Location = new System.Drawing.Point(27, 97);
+            this.ButtonOlustur.Name = "ButtonOlustur";
+            this.ButtonOlustur.Size = new System.Drawing.Size(75, 24);
+            this.ButtonOlustur.TabIndex = 2;
+            this.ButtonOlustur.Text = "Hesapla";
+            this.ButtonOlustur.UseVisualStyleBackColor = true;
+            this.ButtonOlustur.Click += new System.EventHandler(this.ButtonOlustur_Click);
+            // 
+            // LabelElemanSayisi
+            // 
+            this.LabelElemanSayisi.AutoSize = true;
+            this.LabelElemanSayisi.Location = new System.Drawing.Point(9, 55);
+            this.LabelElemanSayisi.Name = "LabelElemanSayisi";
+            this.LabelElemanSayisi.Size = new System.Drawing.Size(93, 13);
+            this.LabelElemanSayisi.TabIndex = 1;
+            this.LabelElemanSayisi.Text = "Eleman Sayýsý :";
+            // 
+            // LabelKumeSayisi
+            // 
+            this.LabelKumeSayisi.AutoSize = true;
+            this.LabelKumeSayisi.Location = new System.Drawing.Point(12, 16);
+            this.LabelKumeSayisi.Name = "LabelKumeSayisi";
+            this.LabelKumeSayisi.Size = new System.Drawing.Size(83, 13);
+            this.LabelKumeSayisi.TabIndex = 1;
+            this.LabelKumeSayisi.Text = "Küme Sayýsý :";
+            // 
+            // TextBoxElemanSayisi
+            // 
+            this.TextBoxElemanSayisi.Location = new System.Drawing.Point(12, 71);
+            this.TextBoxElemanSayisi.Name = "TextBoxElemanSayisi";
+            this.TextBoxElemanSayisi.Size = new System.Drawing.Size(100, 20);
+            this.TextBoxElemanSayisi.TabIndex = 1;
+            // 
+            // TextBoxKumeSayisi
+            // 
+            this.TextBoxKumeSayisi.Location = new System.Drawing.Point(12, 32);
+            this.TextBoxKumeSayisi.Name = "TextBoxKumeSayisi";
+            this.TextBoxKumeSayisi.Size = new System.Drawing.Size(100, 20);
+            this.TextBoxKumeSayisi.TabIndex = 0;
+            // 
+            // ToolTipVeri
+            // 
+            this.ToolTipVeri.IsBalloon = true;
+            this.ToolTipVeri.ToolTipIcon = System.Windows.Forms.ToolTipIcon.Info;
+            this.ToolTipVeri.ToolTipTitle = "Veri Noktasý";
+            // 
+            // ToolTipKume
+            // 
+            this.ToolTipKume.IsBalloon = true;
+            this.ToolTipKume.ToolTipIcon = System.Windows.Forms.ToolTipIcon.Info;
+            this.ToolTipKume.ToolTipTitle = "Küme Merkezi";
+            // 
+            // Algoritma
+            // 
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.ClientSize = new System.Drawing.Size(984, 651);
+            this.Controls.Add(this.GroupBoxCizim);
+            this.Controls.Add(this.GroupBoxAyarlamalar);
+            this.MaximumSize = new System.Drawing.Size(1000, 690);
+            this.MinimumSize = new System.Drawing.Size(1000, 690);
+            this.Name = "Algoritma";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
+            this.Text = "Algoritma";
+            this.ContextMenuStripEkler.ResumeLayout(false);
+            this.GroupBoxAyarlamalar.ResumeLayout(false);
+            this.GroupBoxAyarlamalar.PerformLayout();
+            this.ResumeLayout(false);
+
+        }
+
+        #endregion
+
+        public System.Windows.Forms.GroupBox GroupBoxCizim;
+        private System.Windows.Forms.GroupBox GroupBoxAyarlamalar;
+        private System.Windows.Forms.Label LabelYeniVeriY;
+        private System.Windows.Forms.Label LabelYeniVeriX;
+        private System.Windows.Forms.TextBox TextBoxYeniVeriY;
+        private System.Windows.Forms.TextBox TextBoxYeniVeriX;
+        private System.Windows.Forms.Button ButtonOlustur;
+        private System.Windows.Forms.Label LabelElemanSayisi;
+        private System.Windows.Forms.Label LabelKumeSayisi;
+        private System.Windows.Forms.TextBox TextBoxElemanSayisi;
+        private System.Windows.Forms.TextBox TextBoxKumeSayisi;
+        private System.Windows.Forms.ToolTip ToolTipVeri;
+        private System.Windows.Forms.ToolTip ToolTipKume;
+        private System.Windows.Forms.Button ButtonVeriEkle;
+        private System.Windows.Forms.ContextMenuStrip ContextMenuStripEkler;
+        private System.Windows.Forms.ToolStripMenuItem ToolStripMenuItemCikis;
+        private System.Windows.Forms.ToolStripMenuItem ToolStripMenuItemYenile;
+        private System.Windows.Forms.ToolStripSeparator toolStripMenuItem1;
+        private System.Windows.Forms.TextBox TextBoxYakinlikDegeri;
+        private System.Windows.Forms.Label LabelYakinlikDegeri;
+        private System.Windows.Forms.Button ButtonTemizle;
+        private System.Windows.Forms.Label LabelIterasyonSayisi;
+        private System.Windows.Forms.Label LabelIterasyonDegeri;
+    }
+}
+

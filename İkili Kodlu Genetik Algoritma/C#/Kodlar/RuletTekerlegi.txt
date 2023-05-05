@@ -1,0 +1,97 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace IkiliKodluGenetikAlgoritma
+{
+    class RuletTekerlegi
+    {
+        private Random random = new Random();
+        private double[] kumulatifKiyas;
+
+        private void SeleksuyonIhtimali(double[] uygunluk, double[] seleksuyon, double[] toplamUygunluk)
+        {
+            toplamUygunluk[0] = 0;
+            for (int i = 0; i < uygunluk.Length; i++)
+            {
+                toplamUygunluk[0] = toplamUygunluk[0] + uygunluk[i];
+            }
+
+            for (int i = 0; i < uygunluk.Length; i++)
+            {
+                seleksuyon[i] = uygunluk[i] / toplamUygunluk[0];
+            }
+        }
+
+        private void KumulatifIhtimal(double[] uygunluk, double[] seleksuyon, double[] kumulatif, double[] toplamUygunluk)
+        {
+            SeleksuyonIhtimali(uygunluk, seleksuyon, toplamUygunluk);
+            for (int i = 0; i < uygunluk.Length; i++)
+            {
+                for (int j = 0; j < i + 1; j++)
+                {
+                    kumulatif[i] = kumulatif[i] + seleksuyon[j];
+                }
+                if (kumulatif[i] > 1)
+                {
+                    kumulatif[i] = 1;
+                }
+            }
+
+
+        }
+
+        private void RuletTekerlekDondurulmesi(double[] uygunluk, double[] seleksuyon, double[] kumulatif, double[] tekerlekDondurme, double[] toplamUygunluk)
+        {
+            KumulatifIhtimal(uygunluk, seleksuyon, kumulatif, toplamUygunluk);
+
+            for (int i = 0; i < seleksuyon.Length; i++)
+            {
+                tekerlekDondurme[i] = random.NextDouble();
+            }
+        }
+
+        private void EslestirmeHavuzu(double[] uygunluk, double[] seleksuyon, double[] kumulatif, double[] tekerlekDondurme, int[] siralama, double[] toplamUygunluk)
+        {
+            RuletTekerlekDondurulmesi(uygunluk, seleksuyon, kumulatif, tekerlekDondurme, toplamUygunluk);
+            kumulatifKiyas = new double[kumulatif.Length + 1];
+
+            for (int i = 0; i < tekerlekDondurme.Length; i++)
+            {
+                kumulatifKiyas[tekerlekDondurme.Length] = tekerlekDondurme[i];
+                for (int j = 0; j < kumulatif.Length; j++)
+                {
+                    kumulatifKiyas[j] = kumulatif[j];
+                }
+                Array.Sort(kumulatifKiyas);
+                for (int j = 0; j < kumulatifKiyas.Length; j++)
+                {
+                    if (tekerlekDondurme[i] == kumulatifKiyas[j])
+                    {
+                        if (j == (kumulatifKiyas.Length - 1))
+                        {
+                            siralama[i] = j - 1;
+                        }
+                        else
+                        {
+                            siralama[i] = j;
+                        }
+                    }
+                }
+                Array.Clear(kumulatifKiyas, 0, kumulatifKiyas.Length);
+            }
+        }
+
+        public void KromozomSecimi(double[] uygunluk, double[] seleksuyon, double[] kumulatif, double[] tekerlekDondurme, int[] siralama, string[] eskiKromozom, string[] yeniKromozom, double[] toplamUygunluk)
+        {
+            EslestirmeHavuzu(uygunluk, seleksuyon, kumulatif, tekerlekDondurme, siralama, toplamUygunluk);
+
+            for (int i = 0; i < eskiKromozom.Length; i++)
+            {
+                yeniKromozom[i] = eskiKromozom[siralama[i]];
+            }
+        }
+    }
+}

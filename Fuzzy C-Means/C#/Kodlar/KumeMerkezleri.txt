@@ -1,0 +1,33 @@
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Fuzzy
+{
+    class KumeMerkezleri
+    {
+        private decimal pay = 0;
+        private decimal payda = 0;
+        private decimal sonuc = 0;
+
+        public void Yeni_Kume_Merkezi_Tek_Eksen(double m, decimal[,] dereceler, ArrayList veri, ArrayList kume)
+        {
+            for (int i = 0; i < kume.Count; i++)
+            {
+                for (int j = 0; j < veri.Count; j++)
+                {
+                    pay = pay + Convert.ToDecimal((Math.Pow(Convert.ToDouble(dereceler[i, j]), m) * Convert.ToDouble(veri[j])));
+                    payda = payda + Convert.ToDecimal(Math.Pow(Convert.ToDouble(dereceler[i, j]), m));
+                    sonuc = pay / payda;
+                }
+                kume[i] = sonuc;
+                pay = 0;
+                payda = 0;
+                sonuc = 0;
+            }
+        }
+    }
+}

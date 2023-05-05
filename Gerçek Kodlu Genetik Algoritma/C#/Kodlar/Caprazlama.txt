@@ -1,0 +1,62 @@
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace GercekKodluGA
+{
+    class Caprazlama
+    {
+        private double[] RandomDegerler;
+        private ArrayList Indisler = new ArrayList();
+        private double Beta;
+        private int Indis;
+
+        private void IndislerinBelirlenmesi(double caprazlamaOrani, int populasyonBuyuklugu)
+        {
+            RandomDegerler = new double[populasyonBuyuklugu];
+            RandomOlusturma.DoubleDegerOlusturma(RandomDegerler);
+
+            for (int i = 0; i < populasyonBuyuklugu; i++)
+            {
+                if (caprazlamaOrani >= RandomDegerler[i])
+                {
+                    Indisler.Add(i);
+                }
+            }
+
+            if (Indisler.Count % 2 == 1)
+            {
+                Indis = RandomOlusturma.IndisDegeriOlusturma(populasyonBuyuklugu);
+                for (int i = 0; i < Indisler.Count; i++)
+                {
+                    if (Indis == Convert.ToInt32(Indisler[i]))
+                    {
+                        Indis = RandomOlusturma.IndisDegeriOlusturma(populasyonBuyuklugu);
+                        i = 0;
+                    }
+                    if (Indis != Convert.ToInt32(Indisler[i]))
+                    {
+                        Indisler.Add(Indis);
+                        break;
+                    }
+                }   
+            }
+        }
+
+        public void CrossingOverIslemi(double caprazlamaOrani, int populasyonBuyuklugu, double[,] yeniKromozom)
+        {
+            IndislerinBelirlenmesi(caprazlamaOrani, populasyonBuyuklugu);
+
+            Beta = RandomOlusturma.DoubleDegerOlusturma(Beta);
+
+            for (int i = 0; i < Indisler.Count; i++)
+            {
+                yeniKromozom[0, Convert.ToInt32(Indisler[i])] = (Beta * yeniKromozom[0, Convert.ToInt32(Indisler[i])]) + ((1 - Beta) * yeniKromozom[1, Convert.ToInt32(Indisler[i])]);
+                yeniKromozom[1, Convert.ToInt32(Indisler[i])] = ((1 - Beta) * yeniKromozom[0, Convert.ToInt32(Indisler[i])]) + (Beta * yeniKromozom[1, Convert.ToInt32(Indisler[i])]);
+            }
+        }
+    }
+}

@@ -1,0 +1,60 @@
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Kumeleme
+{
+    class AgirlikMerkezi
+    {
+        private double degerX = 0;
+        private double degerY = 0;
+        private double yeniDegerX = 0;
+        private double yeniDegerY = 0;
+
+        private int a = 0;
+
+        public void Agirlik_Merkezi_Hesaplamasi(int[,] veriNoktalari, ArrayList veriX, ArrayList veriY, ArrayList yenikumemerkeziX, ArrayList yenikumemerkeziY, ArrayList eskikumemerkeziX, ArrayList eskikumemerkeziY)
+        {
+            Kume_Merkezleri_Temizleme(yenikumemerkeziX, yenikumemerkeziY, eskikumemerkeziX, eskikumemerkeziY);
+
+            for (int i = 0; i < eskikumemerkeziX.Count; i++)
+            {
+                for (int j = 0; j < veriX.Count; j++)
+                {
+                    if (veriNoktalari[i, j] != -1)
+                    {
+                        degerX = degerX + Convert.ToDouble(veriX[j]);
+                        degerY = degerY + Convert.ToDouble(veriY[j]);
+                        a++;
+                    }
+                    veriNoktalari[i, j] = -1;
+                }
+                yeniDegerX = degerX / a;
+                yenikumemerkeziX.Add(yeniDegerX);
+
+                yeniDegerY = degerY / a;
+                yenikumemerkeziY.Add(yeniDegerY);
+
+                a = 0;
+                degerX = 0;
+                degerY = 0;
+            }
+        }
+
+        private void Kume_Merkezleri_Temizleme(ArrayList yenikmX, ArrayList yenikmY, ArrayList eskikmX, ArrayList eskikmY)
+        {
+            eskikmX.Clear();
+            eskikmY.Clear();
+            for (int i = 0; i < yenikmX.Count; i++)
+            {
+                eskikmX.Add(yenikmX[i]);
+                eskikmY.Add(yenikmY[i]);
+            }
+            yenikmX.Clear();
+            yenikmY.Clear();
+        }
+    }
+}

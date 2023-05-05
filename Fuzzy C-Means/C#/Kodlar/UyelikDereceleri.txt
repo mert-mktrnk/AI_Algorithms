@@ -1,0 +1,63 @@
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Fuzzy
+{
+    class UyelikDereceleri
+    {
+        private decimal Deger1 = 0;
+        private decimal Deger2 = 0;
+        private decimal Sonuc = 0;
+        private decimal Sonuc1 = 0;
+        private decimal Sonuc2 = 0;
+        private decimal Sonuc3 = 0;
+        private decimal Sonuc4 = 0;
+
+        public void Uyelik_Degerleri(double m, decimal[,] yeniDerece, ArrayList veriX, ArrayList veriY, ArrayList kumeX, ArrayList kumeY)
+        {
+            for (int i = 0; i < veriX.Count; i++)
+            {
+                for (int j = 0; j < kumeX.Count; j++)
+                {
+                    Deger1 = Convert.ToDecimal(Convert.ToInt32(veriX[i]) - Convert.ToInt32(kumeX[j]));
+                    Deger2 = Convert.ToDecimal(Convert.ToInt32(veriY[i]) - Convert.ToInt32(kumeY[j]));
+                    Sonuc1 = Convert.ToDecimal(Math.Sqrt(Convert.ToDouble((Deger1 * Deger1) + (Deger2 * Deger2))));
+
+                    Deger1 = 0;
+                    Deger2 = 0;
+
+                    for (int k = 0; k < kumeX.Count; k++)
+                    {
+                        Deger1 = Convert.ToDecimal(Convert.ToInt32(veriX[i]) - Convert.ToInt32(kumeX[k]));
+                        Deger2 = Convert.ToDecimal(Convert.ToInt32(veriY[i]) - Convert.ToInt32(kumeY[k]));
+                        Sonuc2 = Convert.ToDecimal(Math.Sqrt(Convert.ToDouble((Deger1 * Deger1) + (Deger2 * Deger2))));
+                        if (Sonuc1 == 0)
+                        {
+                            Sonuc1 = 0.00000001M;
+                        }
+                        if (Sonuc2 == 0)
+                        {
+                            Sonuc2 = 0.00000001M;
+                        }
+                        Sonuc3 = Convert.ToDecimal(Math.Pow(Convert.ToDouble((Sonuc1 / Sonuc2)), (2 / (m - 1))));
+                        Sonuc4 = Sonuc4 + Sonuc3;
+
+                        Sonuc = 1 / Sonuc4;
+                    }
+                    yeniDerece[j, i] = Sonuc;
+                    Deger1 = 0;
+                    Deger2 = 0;
+                    Sonuc = 0;
+                    Sonuc1 = 0;
+                    Sonuc2 = 0;
+                    Sonuc3 = 0;
+                    Sonuc4 = 0;
+                }
+            }
+        }
+    }
+}

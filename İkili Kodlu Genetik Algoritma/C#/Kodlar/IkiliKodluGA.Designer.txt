@@ -1,0 +1,363 @@
+namespace IkiliKodluGenetikAlgoritma
+{
+    partial class IkiliKodluGA
+    {
+        /// <summary>
+        /// Required designer variable.
+        /// </summary>
+        private System.ComponentModel.IContainer components = null;
+
+        /// <summary>
+        /// Clean up any resources being used.
+        /// </summary>
+        /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing && (components != null))
+            {
+                components.Dispose();
+            }
+            base.Dispose(disposing);
+        }
+
+        #region Windows Form Designer generated code
+
+        /// <summary>
+        /// Required method for Designer support - do not modify
+        /// the contents of this method with the code editor.
+        /// </summary>
+        private void InitializeComponent()
+        {
+            this.GroupBoxGirisler = new System.Windows.Forms.GroupBox();
+            this.ButtonCikti = new System.Windows.Forms.Button();
+            this.ButtonTemizle = new System.Windows.Forms.Button();
+            this.ButtonCikis = new System.Windows.Forms.Button();
+            this.TextBoxMO = new System.Windows.Forms.TextBox();
+            this.ButtonBaslat = new System.Windows.Forms.Button();
+            this.TextBoxPB = new System.Windows.Forms.TextBox();
+            this.TextBoxCO = new System.Windows.Forms.TextBox();
+            this.TextBoxJS = new System.Windows.Forms.TextBox();
+            this.LabelMO = new System.Windows.Forms.Label();
+            this.LabelCO = new System.Windows.Forms.Label();
+            this.LabelPB = new System.Windows.Forms.Label();
+            this.LabelJS = new System.Windows.Forms.Label();
+            this.labelFonksiyon = new System.Windows.Forms.Label();
+            this.LabelFonkBaslik = new System.Windows.Forms.Label();
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.TextBoxISEnIyiUygunlukDegeri = new System.Windows.Forms.TextBox();
+            this.TextBoxIterasyonSirasi = new System.Windows.Forms.TextBox();
+            this.TextBoxToplamUygunluk = new System.Windows.Forms.TextBox();
+            this.LabelISEnIyiUygunlukDegeri = new System.Windows.Forms.Label();
+            this.LabelIterasyonSirasi = new System.Windows.Forms.Label();
+            this.LabelToplamUygunluk = new System.Windows.Forms.Label();
+            this.TextBoxEnIyiUygunlukDegeri = new System.Windows.Forms.TextBox();
+            this.LabelEnIyiUygunlukDegeri = new System.Windows.Forms.Label();
+            this.GroupBoxGirisler.SuspendLayout();
+            this.groupBox1.SuspendLayout();
+            this.SuspendLayout();
+            // 
+            // GroupBoxGirisler
+            // 
+            this.GroupBoxGirisler.Controls.Add(this.ButtonCikti);
+            this.GroupBoxGirisler.Controls.Add(this.ButtonTemizle);
+            this.GroupBoxGirisler.Controls.Add(this.ButtonCikis);
+            this.GroupBoxGirisler.Controls.Add(this.TextBoxMO);
+            this.GroupBoxGirisler.Controls.Add(this.ButtonBaslat);
+            this.GroupBoxGirisler.Controls.Add(this.TextBoxPB);
+            this.GroupBoxGirisler.Controls.Add(this.TextBoxCO);
+            this.GroupBoxGirisler.Controls.Add(this.TextBoxJS);
+            this.GroupBoxGirisler.Controls.Add(this.LabelMO);
+            this.GroupBoxGirisler.Controls.Add(this.LabelCO);
+            this.GroupBoxGirisler.Controls.Add(this.LabelPB);
+            this.GroupBoxGirisler.Controls.Add(this.LabelJS);
+            this.GroupBoxGirisler.Location = new System.Drawing.Point(12, 25);
+            this.GroupBoxGirisler.Name = "GroupBoxGirisler";
+            this.GroupBoxGirisler.Size = new System.Drawing.Size(239, 190);
+            this.GroupBoxGirisler.TabIndex = 0;
+            this.GroupBoxGirisler.TabStop = false;
+            this.GroupBoxGirisler.Text = "Giriþler";
+            // 
+            // ButtonCikti
+            // 
+            this.ButtonCikti.Enabled = false;
+            this.ButtonCikti.Location = new System.Drawing.Point(10, 154);
+            this.ButtonCikti.Name = "ButtonCikti";
+            this.ButtonCikti.Size = new System.Drawing.Size(98, 23);
+            this.ButtonCikti.TabIndex = 6;
+            this.ButtonCikti.Text = "Çýktý";
+            this.ButtonCikti.UseVisualStyleBackColor = true;
+            this.ButtonCikti.Click += new System.EventHandler(this.ButtonCikti_Click);
+            // 
+            // ButtonTemizle
+            // 
+            this.ButtonTemizle.Enabled = false;
+            this.ButtonTemizle.Location = new System.Drawing.Point(133, 125);
+            this.ButtonTemizle.Name = "ButtonTemizle";
+            this.ButtonTemizle.Size = new System.Drawing.Size(98, 23);
+            this.ButtonTemizle.TabIndex = 5;
+            this.ButtonTemizle.Text = "Temizle";
+            this.ButtonTemizle.UseVisualStyleBackColor = true;
+            this.ButtonTemizle.Click += new System.EventHandler(this.ButtonTemizle_Click);
+            // 
+            // ButtonCikis
+            // 
+            this.ButtonCikis.Location = new System.Drawing.Point(135, 154);
+            this.ButtonCikis.Name = "ButtonCikis";
+            this.ButtonCikis.Size = new System.Drawing.Size(98, 23);
+            this.ButtonCikis.TabIndex = 7;
+            this.ButtonCikis.Text = "Çýkýþ";
+            this.ButtonCikis.UseVisualStyleBackColor = true;
+            this.ButtonCikis.Click += new System.EventHandler(this.ButtonCikis_Click);
+            // 
+            // TextBoxMO
+            // 
+            this.TextBoxMO.Location = new System.Drawing.Point(133, 99);
+            this.TextBoxMO.Name = "TextBoxMO";
+            this.TextBoxMO.Size = new System.Drawing.Size(100, 20);
+            this.TextBoxMO.TabIndex = 3;
+            this.TextBoxMO.Text = "1";
+            // 
+            // ButtonBaslat
+            // 
+            this.ButtonBaslat.Location = new System.Drawing.Point(10, 125);
+            this.ButtonBaslat.Name = "ButtonBaslat";
+            this.ButtonBaslat.Size = new System.Drawing.Size(98, 23);
+            this.ButtonBaslat.TabIndex = 4;
+            this.ButtonBaslat.Text = "Baþlat";
+            this.ButtonBaslat.UseVisualStyleBackColor = true;
+            this.ButtonBaslat.Click += new System.EventHandler(this.ButtonBaslat_Click);
+            // 
+            // TextBoxPB
+            // 
+            this.TextBoxPB.Location = new System.Drawing.Point(133, 44);
+            this.TextBoxPB.Name = "TextBoxPB";
+            this.TextBoxPB.Size = new System.Drawing.Size(100, 20);
+            this.TextBoxPB.TabIndex = 1;
+            this.TextBoxPB.Text = "20";
+            // 
+            // TextBoxCO
+            // 
+            this.TextBoxCO.Location = new System.Drawing.Point(133, 72);
+            this.TextBoxCO.Name = "TextBoxCO";
+            this.TextBoxCO.Size = new System.Drawing.Size(100, 20);
+            this.TextBoxCO.TabIndex = 2;
+            this.TextBoxCO.Text = "25";
+            // 
+            // TextBoxJS
+            // 
+            this.TextBoxJS.Location = new System.Drawing.Point(133, 17);
+            this.TextBoxJS.Name = "TextBoxJS";
+            this.TextBoxJS.Size = new System.Drawing.Size(100, 20);
+            this.TextBoxJS.TabIndex = 0;
+            this.TextBoxJS.Text = "1000";
+            // 
+            // LabelMO
+            // 
+            this.LabelMO.AutoSize = true;
+            this.LabelMO.Location = new System.Drawing.Point(7, 102);
+            this.LabelMO.Name = "LabelMO";
+            this.LabelMO.Size = new System.Drawing.Size(101, 13);
+            this.LabelMO.TabIndex = 0;
+            this.LabelMO.Text = "Mutasyon Oraný (%):";
+            // 
+            // LabelCO
+            // 
+            this.LabelCO.AutoSize = true;
+            this.LabelCO.Location = new System.Drawing.Point(6, 75);
+            this.LabelCO.Name = "LabelCO";
+            this.LabelCO.Size = new System.Drawing.Size(110, 13);
+            this.LabelCO.TabIndex = 0;
+            this.LabelCO.Text = "Çaprazlama Oraný (%):";
+            // 
+            // LabelPB
+            // 
+            this.LabelPB.AutoSize = true;
+            this.LabelPB.Location = new System.Drawing.Point(6, 47);
+            this.LabelPB.Name = "LabelPB";
+            this.LabelPB.Size = new System.Drawing.Size(121, 13);
+            this.LabelPB.TabIndex = 0;
+            this.LabelPB.Text = "Popülasyon Büyüklüðü :";
+            // 
+            // LabelJS
+            // 
+            this.LabelJS.AutoSize = true;
+            this.LabelJS.Location = new System.Drawing.Point(7, 20);
+            this.LabelJS.Name = "LabelJS";
+            this.LabelJS.Size = new System.Drawing.Size(97, 13);
+            this.LabelJS.TabIndex = 0;
+            this.LabelJS.Text = "Jenerasyon Sayýsý :";
+            // 
+            // labelFonksiyon
+            // 
+            this.labelFonksiyon.AutoSize = true;
+            this.labelFonksiyon.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(162)));
+            this.labelFonksiyon.Location = new System.Drawing.Point(133, 9);
+            this.labelFonksiyon.Name = "labelFonksiyon";
+            this.labelFonksiyon.Size = new System.Drawing.Size(247, 13);
+            this.labelFonksiyon.TabIndex = 3;
+            this.labelFonksiyon.Text = "F(X1,X2) = 21,5 + X1.sin(4.pi.X1) + X2.sin(20.pi.X2)";
+            // 
+            // LabelFonkBaslik
+            // 
+            this.LabelFonkBaslik.AutoSize = true;
+            this.LabelFonkBaslik.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Underline))), System.Drawing.GraphicsUnit.Point, ((byte)(162)));
+            this.LabelFonkBaslik.Location = new System.Drawing.Point(55, 9);
+            this.LabelFonkBaslik.Name = "LabelFonkBaslik";
+            this.LabelFonkBaslik.Size = new System.Drawing.Size(72, 13);
+            this.LabelFonkBaslik.TabIndex = 4;
+            this.LabelFonkBaslik.Text = "Fonksiyon :";
+            // 
+            // groupBox1
+            // 
+            this.groupBox1.Controls.Add(this.TextBoxISEnIyiUygunlukDegeri);
+            this.groupBox1.Controls.Add(this.TextBoxIterasyonSirasi);
+            this.groupBox1.Controls.Add(this.TextBoxToplamUygunluk);
+            this.groupBox1.Controls.Add(this.LabelISEnIyiUygunlukDegeri);
+            this.groupBox1.Controls.Add(this.LabelIterasyonSirasi);
+            this.groupBox1.Controls.Add(this.LabelToplamUygunluk);
+            this.groupBox1.Controls.Add(this.TextBoxEnIyiUygunlukDegeri);
+            this.groupBox1.Controls.Add(this.LabelEnIyiUygunlukDegeri);
+            this.groupBox1.Location = new System.Drawing.Point(257, 25);
+            this.groupBox1.Name = "groupBox1";
+            this.groupBox1.Size = new System.Drawing.Size(186, 190);
+            this.groupBox1.TabIndex = 5;
+            this.groupBox1.TabStop = false;
+            this.groupBox1.Text = "Çýkýþlar";
+            // 
+            // TextBoxISEnIyiUygunlukDegeri
+            // 
+            this.TextBoxISEnIyiUygunlukDegeri.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.TextBoxISEnIyiUygunlukDegeri.Location = new System.Drawing.Point(6, 126);
+            this.TextBoxISEnIyiUygunlukDegeri.Name = "TextBoxISEnIyiUygunlukDegeri";
+            this.TextBoxISEnIyiUygunlukDegeri.ReadOnly = true;
+            this.TextBoxISEnIyiUygunlukDegeri.Size = new System.Drawing.Size(164, 13);
+            this.TextBoxISEnIyiUygunlukDegeri.TabIndex = 3;
+            this.TextBoxISEnIyiUygunlukDegeri.TabStop = false;
+            this.TextBoxISEnIyiUygunlukDegeri.Text = "0";
+            // 
+            // TextBoxIterasyonSirasi
+            // 
+            this.TextBoxIterasyonSirasi.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.TextBoxIterasyonSirasi.Location = new System.Drawing.Point(6, 84);
+            this.TextBoxIterasyonSirasi.Name = "TextBoxIterasyonSirasi";
+            this.TextBoxIterasyonSirasi.ReadOnly = true;
+            this.TextBoxIterasyonSirasi.Size = new System.Drawing.Size(164, 13);
+            this.TextBoxIterasyonSirasi.TabIndex = 3;
+            this.TextBoxIterasyonSirasi.TabStop = false;
+            this.TextBoxIterasyonSirasi.Text = "0";
+            // 
+            // TextBoxToplamUygunluk
+            // 
+            this.TextBoxToplamUygunluk.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.TextBoxToplamUygunluk.Location = new System.Drawing.Point(6, 166);
+            this.TextBoxToplamUygunluk.Name = "TextBoxToplamUygunluk";
+            this.TextBoxToplamUygunluk.ReadOnly = true;
+            this.TextBoxToplamUygunluk.Size = new System.Drawing.Size(164, 13);
+            this.TextBoxToplamUygunluk.TabIndex = 3;
+            this.TextBoxToplamUygunluk.TabStop = false;
+            this.TextBoxToplamUygunluk.Text = "0";
+            // 
+            // LabelISEnIyiUygunlukDegeri
+            // 
+            this.LabelISEnIyiUygunlukDegeri.AutoSize = true;
+            this.LabelISEnIyiUygunlukDegeri.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(162)));
+            this.LabelISEnIyiUygunlukDegeri.Location = new System.Drawing.Point(3, 110);
+            this.LabelISEnIyiUygunlukDegeri.Name = "LabelISEnIyiUygunlukDegeri";
+            this.LabelISEnIyiUygunlukDegeri.Size = new System.Drawing.Size(181, 13);
+            this.LabelISEnIyiUygunlukDegeri.TabIndex = 2;
+            this.LabelISEnIyiUygunlukDegeri.Text = "Ýterasyon Sonunda Uygunluk Deðeri:\r\n";
+            // 
+            // LabelIterasyonSirasi
+            // 
+            this.LabelIterasyonSirasi.AutoSize = true;
+            this.LabelIterasyonSirasi.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(162)));
+            this.LabelIterasyonSirasi.Location = new System.Drawing.Point(3, 68);
+            this.LabelIterasyonSirasi.Name = "LabelIterasyonSirasi";
+            this.LabelIterasyonSirasi.Size = new System.Drawing.Size(81, 13);
+            this.LabelIterasyonSirasi.TabIndex = 2;
+            this.LabelIterasyonSirasi.Text = "Ýterasyon Sýrasý:";
+            // 
+            // LabelToplamUygunluk
+            // 
+            this.LabelToplamUygunluk.AutoSize = true;
+            this.LabelToplamUygunluk.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(162)));
+            this.LabelToplamUygunluk.Location = new System.Drawing.Point(3, 150);
+            this.LabelToplamUygunluk.Name = "LabelToplamUygunluk";
+            this.LabelToplamUygunluk.Size = new System.Drawing.Size(93, 13);
+            this.LabelToplamUygunluk.TabIndex = 2;
+            this.LabelToplamUygunluk.Text = "Toplam Uygunluk:";
+            // 
+            // TextBoxEnIyiUygunlukDegeri
+            // 
+            this.TextBoxEnIyiUygunlukDegeri.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.TextBoxEnIyiUygunlukDegeri.Location = new System.Drawing.Point(6, 45);
+            this.TextBoxEnIyiUygunlukDegeri.Name = "TextBoxEnIyiUygunlukDegeri";
+            this.TextBoxEnIyiUygunlukDegeri.ReadOnly = true;
+            this.TextBoxEnIyiUygunlukDegeri.Size = new System.Drawing.Size(164, 13);
+            this.TextBoxEnIyiUygunlukDegeri.TabIndex = 1;
+            this.TextBoxEnIyiUygunlukDegeri.TabStop = false;
+            this.TextBoxEnIyiUygunlukDegeri.Text = "0";
+            // 
+            // LabelEnIyiUygunlukDegeri
+            // 
+            this.LabelEnIyiUygunlukDegeri.AutoSize = true;
+            this.LabelEnIyiUygunlukDegeri.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(162)));
+            this.LabelEnIyiUygunlukDegeri.Location = new System.Drawing.Point(3, 16);
+            this.LabelEnIyiUygunlukDegeri.Name = "LabelEnIyiUygunlukDegeri";
+            this.LabelEnIyiUygunlukDegeri.Size = new System.Drawing.Size(148, 26);
+            this.LabelEnIyiUygunlukDegeri.TabIndex = 0;
+            this.LabelEnIyiUygunlukDegeri.Text = "Tüm Ýterasyon Boyunca En Ýyi\r\nUygunluk Deðeri:";
+            // 
+            // IkiliKodluGA
+            // 
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.ClientSize = new System.Drawing.Size(449, 218);
+            this.Controls.Add(this.groupBox1);
+            this.Controls.Add(this.LabelFonkBaslik);
+            this.Controls.Add(this.labelFonksiyon);
+            this.Controls.Add(this.GroupBoxGirisler);
+            this.MaximizeBox = false;
+            this.MaximumSize = new System.Drawing.Size(465, 257);
+            this.MinimizeBox = false;
+            this.MinimumSize = new System.Drawing.Size(465, 257);
+            this.Name = "IkiliKodluGA";
+            this.Text = "Ýkili Kodlu Genetik Algoritma";
+            this.GroupBoxGirisler.ResumeLayout(false);
+            this.GroupBoxGirisler.PerformLayout();
+            this.groupBox1.ResumeLayout(false);
+            this.groupBox1.PerformLayout();
+            this.ResumeLayout(false);
+            this.PerformLayout();
+
+        }
+
+        #endregion
+
+        private System.Windows.Forms.GroupBox GroupBoxGirisler;
+        private System.Windows.Forms.TextBox TextBoxMO;
+        private System.Windows.Forms.TextBox TextBoxPB;
+        private System.Windows.Forms.TextBox TextBoxCO;
+        private System.Windows.Forms.TextBox TextBoxJS;
+        private System.Windows.Forms.Label LabelMO;
+        private System.Windows.Forms.Label LabelCO;
+        private System.Windows.Forms.Label LabelPB;
+        private System.Windows.Forms.Label LabelJS;
+        private System.Windows.Forms.Button ButtonBaslat;
+        private System.Windows.Forms.Button ButtonTemizle;
+        private System.Windows.Forms.Button ButtonCikis;
+        private System.Windows.Forms.Button ButtonCikti;
+        private System.Windows.Forms.Label labelFonksiyon;
+        private System.Windows.Forms.Label LabelFonkBaslik;
+        private System.Windows.Forms.GroupBox groupBox1;
+        private System.Windows.Forms.TextBox TextBoxEnIyiUygunlukDegeri;
+        private System.Windows.Forms.Label LabelEnIyiUygunlukDegeri;
+        private System.Windows.Forms.TextBox TextBoxISEnIyiUygunlukDegeri;
+        private System.Windows.Forms.Label LabelISEnIyiUygunlukDegeri;
+        private System.Windows.Forms.TextBox TextBoxIterasyonSirasi;
+        private System.Windows.Forms.Label LabelIterasyonSirasi;
+        private System.Windows.Forms.TextBox TextBoxToplamUygunluk;
+        private System.Windows.Forms.Label LabelToplamUygunluk;
+    }
+}
+

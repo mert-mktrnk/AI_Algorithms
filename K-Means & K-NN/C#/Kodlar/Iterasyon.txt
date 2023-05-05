@@ -1,0 +1,58 @@
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Kumeleme
+{
+    class Iterasyon
+    {
+        private double sayiX1 = 0;
+        private double sayiX2 = 0;
+        private double sayiY1 = 0;
+        private double sayiY2 = 0;
+
+        public int iterasyonDegeri = 0;
+
+        Oklid Oklid = new Oklid();
+        AgirlikMerkezi AgirlikMerkezi = new AgirlikMerkezi();
+
+        public void Iterasyon_Hesaplamasi(int[,] yeniVeriNoktalari, int[,] eskiVeriNoktalari, ArrayList elemanX, ArrayList elemanY, ArrayList yeniKumeMerkeziX, ArrayList yeniKumeMerkeziY, ArrayList eskiKumeMerkeziX, ArrayList eskiKumeMerkeziY)
+        {
+            iterasyonDegeri = 0;
+            bool cevap = true;
+            int sayi = 0;
+            while (cevap == true)
+            {
+                iterasyonDegeri++;
+                sayi = 0;
+                Oklid.Oklid_Mesafe_Hesaplamasi(yeniVeriNoktalari, eskiVeriNoktalari, elemanX, elemanY, yeniKumeMerkeziX, yeniKumeMerkeziY);
+                AgirlikMerkezi.Agirlik_Merkezi_Hesaplamasi(yeniVeriNoktalari, elemanX, elemanY, yeniKumeMerkeziX, yeniKumeMerkeziY, eskiKumeMerkeziX, eskiKumeMerkeziY);
+                for (int i = 0; i < yeniKumeMerkeziX.Count; i++)
+                {
+                    for (int j = 0; j < yeniKumeMerkeziX.Count; j++)
+                    {
+                        sayiX1 = sayiX1 + Convert.ToDouble(yeniKumeMerkeziX[j]);
+                        sayiX2 = sayiX2 + Convert.ToDouble(eskiKumeMerkeziX[j]);
+                        sayiY1 = sayiY1 + Convert.ToDouble(yeniKumeMerkeziY[j]);
+                        sayiY2 = sayiY2 + Convert.ToDouble(eskiKumeMerkeziY[j]);
+                    }
+                    if ((sayiX1 == sayiX2) && (sayiY1 == sayiY2))
+                    {
+                        sayi++;
+                        if (sayi == yeniKumeMerkeziX.Count)
+                        {
+                            cevap = false;
+                        }
+                    }
+                    sayiX1 = 0;
+                    sayiX2 = 0;
+                    sayiY1 = 0;
+                    sayiY2 = 0;
+                }
+            }
+        }
+    }
+}

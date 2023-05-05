@@ -1,0 +1,122 @@
+clear all, clc;
+% Gercek Kodlu Genetik Algoritma Uygulamasi
+% Six Hump Camel Back Function
+% f(x1, x2) = -1.0316;
+% (x1, x2) = (-0.0898, 0.7126),(0.0898, -0,7126)
+% fx = (4-2.1*x1^2+x1^4*(1/3))*x1^2+x1*x2+(-4+4*x2^2)*x2^2;
+% Fonksiyonun minimum degeri bulunacaktir
+
+GN = input('Jenerasyon Sayisi: ');
+PN = input('Populasyon Buyuklugu: ');
+CO = input('Caprazlama Oran? (%): ');
+MO = input('Mutasyon Oran? (%): ');
+
+Xmin = [-3 -2];
+Xmax = [3 2];
+BestFitness = 0;
+ParNumber = length(Xmin);
+Population = zeros(PN,2);
+Fitness = zeros(PN,1);
+resultFile = sprintf('Sonuclar.txt');
+fid = fopen(resultFile, 'wt');
+
+% Baslangic Populasyon Olusturulmasi
+Population(:,1) = Xmin(1) + rand(1, PN) * (Xmax(1) - Xmin(1));
+Population(:,2) = Xmin(2) + rand(1, PN) * (Xmax(2) - Xmin(2));
+
+fprintf(fid,'\nGeneration: %d Population: %d Crossover: %.2f Mutation: %.2f\n\n',GN, PN, CO/100, MO/100);
+
+%Uygunluk Degerinin Hesaplanmasi
+for j = 1:1:PN
+    X1 = Population(j,1);
+    X2 = Population(j,2);
+    Fitness(j,1) = (4-2.1*X1^2+X1^4*(1/3))*X1^2+X1*X2+(-4+4*X2^2)*X2^2;
+end
+
+[minFitness, minIndex] = min(Fitness);
+BestFitness = minFitness;
+fprintf(fid,'Ilk \t%.3f\t\t\t%.4f\t\t\t%.4f\t\t%.4f\n',sum(Fitness),minFitness,Population(minIndex,1),Population(minIndex,2));
+
+tic
+for i = 1 : GN
+    if (minFitness < BestFitness)
+        BestFitness = minFitness;
+        BestGN = i;
+    end
+    
+    %Dogal Secim Islemi
+    SelFitness = Fitness + 1.1;
+    SelFitness = 1 ./ SelFitness;
+    Probability = SelFitness / sum(SelFitness);
+    Cumulative = cumsum(Probability);
+    RandomSNum = rand(PN,1);
+    
+    for j = 1:PN
+        index = find(RandomSNum < Cumulative(j));
+        RandomSNum(index) = j * ones(size(index));
+    end
+    
+    Population = Population(RandomSNum, :);
+    
+    %Caprazlama Islemi
+    RandomCNum = rand(PN,1);
+    index = find(RandomCNum < (CO/100));
+    CONum = length(index);
+    
+    while CONum < ceil(PN * (CO/100))
+        index(CONum + 1) = round(rand * PN);
+        if index(CONum + 1) == 0
+            continue;
+        end
+        CONum = length(index);
+    end
+    
+    while CONum > ceil(PN * (CO/100))
+        index(CONum) = [];
+        CONum = length(index);
+    end
+    while mod(CONum,2)==1
+        index(CONum + 1) = round(rand * PN);
+        if index(CONum + 1) == 0
+            continue;
+        end
+        CONum = length(index);
+    end
+    CONum = length(index);
+    for j = 1 : CONum/2
+        CrossPoint = ceil(rand * (ParNumber - 1));
+        % Tek nokta caprazlama yontemi
+        % Param = Population(index(2*j-1),CrossPoint);
+        % Population(index(2 * j-1),CrossPoint) = Population(index(2*j),CrossPoint);
+        % Population(index(2*j),CrossPoint) = Param;
+        
+        % Karisik Caprazlama Yontemi
+        Beta = rand;
+        Param1 = Beta * Population(index(2*j-1),CrossPoint) + (1-Beta)*Population(index(2*j),CrossPoint);
+        Param2 = (1 - Beta) * Population(index(2*j-1),CrossPoint) + (Beta)*Population(index(2*j),CrossPoint);
+        Population(index(2*j-1),CrossPoint) = Param1;
+        Population(index(2*j-1),CrossPoint + 1) = Param2;
+    end
+    
+    % Mutasyon Islemi
+    if(i ~= GN)
+        RandomMNum = rand(PN * ParNumber,1);
+        index = find(RandomMNum < (MO / 100));
+        MONum = length(index);
+        for j = 1: MONum
+            Population(ceil(index(j)/ParNumber),mod(index(j),ParNumber)+1) = Xmin(mod(index(j),ParNumber)+1)+rand*(Xmax(mod(index(j),ParNumber)+1)-Xmin(mod(index(j),ParNumber)+1));
+        end
+    end
+    
+    %Uygunluk Degerlerinin Hesaplanmasi
+    for j = 1:1:PN
+        X1=Population(j,1);
+        X2=Population(j,2);
+        Fitness(j,1)=(4-2.1*X1^2+X1^4*(1/3))*X1^2+X1*X2+(-4+4*X2^2)*X2^2;
+    end
+    [minFitness,minIndex] = min(Fitness);
+    fprintf(fid,'%d\t\t%.3f\t\t\t%.4f\t\t\t%.4f\t\t%.4f\n',i,sum(Fitness),minFitness,Population(minIndex,1),Population(minIndex,2));
+end
+toc
+fprintf(fid,'\n\n%d. iterasyonda en iyi uygunluk degeri: %.4f\n',BestGN - 1, BestFitness);
+fclose(fid);

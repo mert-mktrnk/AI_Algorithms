@@ -1,0 +1,54 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace GercekKodluGA
+{
+    class Mutasyon
+    {
+        private double[,] randomKromozom;
+
+        private void MutasyonIslemiRandomOlusturma(int[] pAlt, int populasyonBuyuklugu)
+        {
+            randomKromozom = new double[pAlt.Length, populasyonBuyuklugu];
+            for (int i = 0; i < pAlt.Length; i++)
+            {
+                for (int j = 0; j < populasyonBuyuklugu; j++)
+                {
+                    randomKromozom[i, j] = RandomOlusturma.DoubleDegerOlusturma(0);
+                }
+            }
+        }
+
+        private void KromozomAktarimi(int[] pAlt, int populasyonBuyuklugu, double[,] yeniKromozom, double[,] eskiKromozom)
+        {
+            for (int i = 0; i < pAlt.Length; i++)
+            {
+                for (int j = 0; j < populasyonBuyuklugu; j++)
+                {
+                    eskiKromozom[i, j] = yeniKromozom[i, j];
+                }
+            }
+        }
+
+        public void MutasyonIslemi(int[] pAlt, int populasyonBuyuklugu, double[,] yeniKromozom, double[,] eskiKromozom, double mutasyonOrani)
+        {
+            MutasyonIslemiRandomOlusturma(pAlt, populasyonBuyuklugu);
+
+            for (int i = 0; i < pAlt.Length; i++)
+            {
+                for (int j = 0; j < populasyonBuyuklugu; j++)
+                {
+                    if (randomKromozom[i,j] <= mutasyonOrani)
+                    {
+                        yeniKromozom[i, j] = randomKromozom[i, j];
+                    }
+                }
+            }
+
+            KromozomAktarimi(pAlt, populasyonBuyuklugu, yeniKromozom, eskiKromozom);
+        }
+    }
+}

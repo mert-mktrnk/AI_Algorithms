@@ -1,0 +1,63 @@
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Kumeleme
+{
+    class K_nn
+    {
+        public void EnYakinKomsu(int xNoktasi, int yNoktasi, int yakinlikDegeri, ArrayList veriX, ArrayList veriY, int[] degerler)
+        {
+            double[] oklidDegerlerYeni = new double[veriX.Count];
+            double[] oklidDegerlerEski = new double[veriX.Count];
+
+            OklidHesaplama(xNoktasi, yNoktasi, veriX, veriY, oklidDegerlerEski);
+
+            for (int i = 0; i < oklidDegerlerEski.Length; i++)
+            {
+                oklidDegerlerYeni[i] = oklidDegerlerEski[i];
+            }
+            Array.Sort(oklidDegerlerEski);
+
+            YakinOlanlariSecme(yakinlikDegeri, oklidDegerlerEski, oklidDegerlerYeni, degerler);
+        }
+
+        private void OklidHesaplama(int x, int y, ArrayList xV, ArrayList yV, double[] sonuclar)
+        {
+            double xOklid = 0;
+            double yOklid = 0;
+            double Oklid = 0;
+
+            for (int i = 0; i < xV.Count; i++)
+            {
+                xOklid = x - Convert.ToDouble(xV[i]);
+                xOklid = xOklid * xOklid;
+                yOklid = y - Convert.ToDouble(yV[i]);
+                yOklid = yOklid * yOklid;
+                Oklid = Math.Sqrt(xOklid + yOklid);
+                sonuclar[i] = Oklid;
+                xOklid = 0;
+                yOklid = 0;
+                Oklid = 0;
+            }
+        }
+
+        private void YakinOlanlariSecme(int yakinlik, double[] mesafeEski, double[] mesafeYeni, int[] deger)
+        {
+            for (int i = 0; i < yakinlik; i++)
+            {
+                for (int j = 0; j < mesafeYeni.Length; j++)
+                {
+                    if (mesafeEski[i] == mesafeYeni[j])
+                    {
+                        deger[i] = j;
+                        break;
+                    }
+                }
+            }
+        }
+    }
+}

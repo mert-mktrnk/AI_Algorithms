@@ -1,0 +1,70 @@
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace IkiliKodluGenetikAlgoritma
+{
+    class Mutasyon
+    {
+        private string bitler = "";
+        private char[] mutasyonBiti;
+        private ArrayList mutasyonBitleri = new ArrayList();
+        private Random random = new Random();
+
+        private void MutasyonRandom(int pb, int X, double[,] mutasyonDegeri, double pm)
+        {
+            for (int i = 0; i < pb; i++)
+            {
+                for (int j = 0; j < X; j++)
+                {
+                    mutasyonDegeri[i, j] = random.NextDouble();
+                    if (pm > mutasyonDegeri[i, j])
+                    {
+                        mutasyonBitleri.Add(i);
+                        mutasyonBitleri.Add(j);
+                    }
+                }
+            }
+        }
+
+        public void MutasyonIslemi(int pb, int X, double[,] mutasyonDegeri, double pm, string[] yeniKromozom, string[] eskiKromozom)
+        {
+            MutasyonRandom(pb, X, mutasyonDegeri, pm);
+
+            for (int i = 0; i < yeniKromozom.Length; i++)
+            {
+                mutasyonBiti = yeniKromozom[i].ToCharArray();
+                for (int j = 0; j < mutasyonBitleri.Count; j = j + 2)
+                {
+                    if (Convert.ToInt32(mutasyonBitleri[j]) == i)
+                    {
+                        if (mutasyonBiti[Convert.ToInt32(mutasyonBitleri[j + 1])] == '1')
+                        {
+                            mutasyonBiti[Convert.ToInt32(mutasyonBitleri[j + 1])] = '0';
+                        }
+                        else
+                        {
+                            mutasyonBiti[Convert.ToInt32(mutasyonBitleri[j + 1])] = '1';
+                        }
+                    }
+                }
+
+                for (int j = 0; j < mutasyonBiti.Length; j++)
+                {
+                    bitler = bitler + mutasyonBiti[j];
+                }
+                yeniKromozom[i] = bitler;
+                Array.Clear(mutasyonBiti, 0, mutasyonBiti.Length);
+                bitler = "";
+            }
+
+            for (int i = 0; i < yeniKromozom.Length; i++)
+            {
+                eskiKromozom[i] = yeniKromozom[i];
+            }
+        }
+    }
+}

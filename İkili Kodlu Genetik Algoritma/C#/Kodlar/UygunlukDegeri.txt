@@ -1,0 +1,27 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace IkiliKodluGenetikAlgoritma
+{
+    class UygunlukDegeri
+    {
+        private double fonk;
+
+        public void KromozomUygunlukDegeri(double[,] genDegeri, double[] uygunluk)
+        {
+            for (int i = 0; i < uygunluk.Length; i++)
+            {
+                uygunluk[i] = AmacFonksiyonu(genDegeri[0, i], genDegeri[1, i]);
+            }
+        }
+
+        private double AmacFonksiyonu(double x1, double x2)
+        {
+            fonk = 21.5 + (x1 * Math.Sin(4 * Math.PI * x1)) + (x2 * Math.Sin(20 * Math.PI * x2));
+            return fonk;
+        }
+    }
+}

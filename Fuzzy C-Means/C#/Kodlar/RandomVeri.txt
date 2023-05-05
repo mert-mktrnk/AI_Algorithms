@@ -1,0 +1,37 @@
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Fuzzy
+{
+    static class RandomAtama
+    {
+        private static Random random = new Random();
+        private static int deger = 0;
+
+        public static void Otomatik_Deger_Atama(int veriSayisi, ArrayList veriler, int maxNoktasi)
+        {
+            for (int i = 0; i < veriSayisi; i++)
+            {
+                deger = Convert.ToInt32(random.Next(20, maxNoktasi) * 0.37513);
+                veriler.Add(deger);
+                deger = 0;
+            }
+        }
+
+        public static void Otomatik_Deger_Atama(decimal[,] eski, decimal[,] yeni, ArrayList veri, ArrayList kume)
+        {
+            for (int i = 0; i < kume.Count; i++)
+            {
+                for (int j = 0; j < veri.Count; j++)
+                {
+                    eski[i, j] = Convert.ToDecimal(random.NextDouble());
+                    yeni[i, j] = eski[i, j];
+                }
+            }
+        }
+    }
+}

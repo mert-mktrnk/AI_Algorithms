@@ -1,0 +1,128 @@
+clear variables
+%Kume ve nokta sayisi
+kumeSayisi = 2;
+noktaSayisi = 500;
+
+clr = 'rbgk';
+%Veri noktalarinin rastgele oluþturulmasi
+veri = [randn(noktaSayisi,2)*0.75 + ones(noktaSayisi,2);randn(noktaSayisi,2)*0.5 - ones(noktaSayisi,2)];
+veriBoyutu = length(veri(1,:));
+toplamNokta = length(veri(:,1));
+
+%Kume merkezlerinin rastgele oluþturulmasi
+minVeri = min(veri);
+maxVeri = max(veri);
+farkVeri = maxVeri - minVeri;
+kume = ones(kumeSayisi,veriBoyutu) .* rand(kumeSayisi,veriBoyutu);
+for i = 1: kumeSayisi
+    kume(i,:) = kume(i,:) .* farkVeri;
+    kume(i,:) = kume(i,:) + minVeri;
+end
+
+%Baslangictaki durumun cizilmesi
+figure;
+hold on;
+plot(veri(:,1),veri(:,2),'.');
+title 'Bulanýk C-Ortalama (Fuzzy C-Means) Yontemi';
+plot(kume(:,1),kume(:,2),'*');
+
+%Baslangic uyelik degerleri
+uyelikU = zeros(toplamNokta,kumeSayisi);
+uyelikU(:,1) = rand(toplamNokta,1);
+uyelikU(:,2) = 1 - uyelikU(:,1);
+uyelikUk = uyelikU;
+
+%m agirlastirilmis us
+m = 2;
+
+%Durdurma Kriteri
+Epsilon = 1e-12;
+Stop = 0;
+
+kumeAtama = zeros(toplamNokta,1);
+
+%iterasyon baslangici
+while Stop == 0
+    %Uyelik degerlerinin belirlenmesi
+    for i = 1 : kumeSayisi
+        for j = 1 : toplamNokta
+            sumPay = 0;
+            for t = 1 : kumeSayisi
+                minFark = (veri(j,:) - kume(i,:));
+                Pay = minFark * minFark';
+                minFark = (veri(j,:) - kume(t,:));
+                Payda = minFark * minFark';
+                sumPay = sumPay + (Pay / Payda)^(2/(m - 1));
+            end
+            uyelikU(j,i) = 1 / sumPay;
+        end
+    end
+    
+    %Kumelerin konumlarinin yeniden hesaplanmasi
+    for i = 1 : kumeSayisi
+        sumPay = 0;
+        sumPayda = 0;
+        for j = 1 : toplamNokta
+            sumPay  = sumPay + (uyelikU(j,i) ^ m) * veri(j,1);
+            sumPayda = sumPayda + (uyelikU(j,i) ^ m);
+        end
+        kume(i,1) = sumPay / sumPayda;
+        
+        sumPay = 0;
+        sumPayda = 0;
+        for j = 1 : toplamNokta
+            sumPay  = sumPay + (uyelikU(j,i) ^ m) * veri(j,2);
+            sumPayda = sumPayda + (uyelikU(j,i) ^ m);
+        end
+        kume(i,2) = sumPay / sumPayda;
+    end
+    
+    %Durdurma kriterini hesapla
+    %abs komutu mutlak deger demektir..
+    delta = 0;
+    for i = 1 : kumeSayisi
+        for j = 1 : toplamNokta
+            delta = delta + abs(uyelikU(j,i) - uyelikUk(j,i));
+            uyelikUk(j,i) = uyelikU(j,i);
+        end
+    end
+    if(delta <= Epsilon)
+        Stop = 1;
+    end
+end
+
+%Uyelik degerlerine gore noktalarin kumelere atanmasi
+for j = 1 : toplamNokta
+    kumeAtama(j) = find(uyelikU(j,:) == max(uyelikU(j,:)));
+end
+
+%Son durumun cizdirilmesi
+figure;
+hold on;
+kume1 = find(kumeAtama == 1);
+kume2 = find(kumeAtama == 2);
+title 'Bulanik C-Ortalama (Fuzzy C-Means) Yontemi';
+plot(veri(kume1,1),veri(kume1,2),'.','Color',clr(1));
+plot(veri(kume2,1),veri(kume2,2),'.','Color',clr(2));
+plot(kume(:,1),kume(:,2),'.','Color',clr(4));
+
+%Girilen yeni verinin hangi kumeye ait oldugunu sorgulanmasi
+yeniVeri = [];
+yeniVeri = input('Yeni verinin koordinatlarini giriniz ([x,y]):');
+
+%Ornek veri giris [2.43 2.23];
+for i = 1 : kumeSayisi
+    sumPay = 0;
+    for t = 1 : kumeSayisi
+        minFark = (yeniVeri(1,:) - kume(i,:));
+        Pay = minFark * minFark';
+        minFark = (yeniVeri(1,:) - kume(t,:));
+        Payda = minFark * minFark';
+        sumPay = sumPay + (Pay / Payda) ^ (2 / (m - 1));
+    end
+    yeniUyelikU(1,i) = 1 / sumPay;
+end
+
+yeniVeriKume = find(yeniUyelikU(1,:) == max(yeniUyelikU(1,:)));
+disp([num2str(yeniVeri),'koordinatli veri', num2str(yeniVeriKume),'nolu kumeye aittir.']);
+plot(yeniVeri(1),yeniVeri(2),'+','Color',clr(yeniVeriKume));

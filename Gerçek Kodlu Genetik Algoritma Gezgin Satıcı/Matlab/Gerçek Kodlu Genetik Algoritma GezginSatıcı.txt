@@ -1,0 +1,144 @@
+% Gezgin Satici Problemi Genetik Algoritma Uygulamasi
+% Türkiye'deki 81 il icin problemin uygulanmasi
+% Sehirler.xlsx dosyasi 81 il arasindaki mesafeleri icermektedir.
+% Her sehre bir defa ugranilacak ve en kisa mesafe hesaplanacak
+
+GN = input('Jenerasyon Sayisi:');
+PN = input('Populasyon Buyuklugu:');
+CO = input('Caprazlama Orani (%):');
+MO = input('Mutasyon Orani (%):');
+
+% Mesafelerin Sehirler matrisine alinmasi
+Sehirler = xlsread('Sehirler.xls');
+
+SehirSayisi = length(Sehirler(1,:));
+BestDistance = 0;
+BestRoute = zeros(SehirSayisi,1);
+Population = zeros(PN,SehirSayisi);
+Distance = zeros(PN,1);
+resultFile = sprintf('Sonuclar.txt');
+fid = fopen(resultFile,'wt');
+
+% Baslangic populasyonu olusturulmasi
+for j = 1: PN
+    Population(j,:) = randperm(SehirSayisi);
+end
+
+fprintf(fid, '\nGeneration: %d Population: %d Crossover: %.2f Mutation: %.2f\n\n', GN, PN, CO/100, MO/100);
+fprintf(fid, 'Nesil\t\tToplam Uygunluk\t\tEn Iyi Uygunluk\n');
+
+% Uygunluk degerinin hesaplanmasi
+for j = 1: PN
+    Dist = 0;
+    for k = 1: SehirSayisi - 1
+        Dist = Dist + Sehirler(Population(j,k), Population(j, k+1));
+    end
+    Distance(j) = Dist;
+end
+
+[minDistance,minIndex] = min(Distance);
+BestDistance = minDistance;
+BestRoute = Population(minIndex, :);
+fprintf(fid, 'Ilk\t\t\t%d\t\t\t\t%d\n', sum(Distance),minDistance);
+
+tic
+for i = 1: GN
+    if(minDistance < BestDistance)
+        BestRoute = Population(minIndex,:);
+        BestDistance = minDistance;
+        BestGN = i;
+    end
+    
+    % Caprazlama Islemi
+    RandomCNum = rand(PN,1);
+    index = find(RandomCNum < (CO/100));
+    CONum = length(index);
+    
+    while CONum < ceil(PN*(CO/100))
+        index(CONum + 1) = round(rand * PN);
+        if index(CONum + 1)==0
+            continue;
+        end
+        CONum = length(index);
+    end
+    
+    while CONum > ceil(PN*(CO/100))
+        index(CONum) = [];
+        CONum = length(index);
+    end
+    
+    while mod(CONum,2)==1
+        index(CONum + 1) = round(rand * PN);
+        if index(CONum + 1) == 0
+            continue;
+        end
+        CONum = length(index);
+    end
+    
+    CONum = length(index);
+    
+    for j = 1: CONum/2
+        CrossPoint = ceil(rand * (SehirSayisi - 1));
+        % Tek nokta caprazlama yontemi
+        Param = Population(index(2*j-1),CrossPoint + 1: SehirSayisi);
+        Population(index(2*j-1),CrossPoint + 1: SehirSayisi) = Population(index(2*j),CrossPoint + 1: SehirSayisi);
+        Population(index(2*j),CrossPoint + 1: SehirSayisi) = Param;
+        
+        for k = 1: SehirSayisi
+            KacTane(k) = length(find(Population(index(2*j-1),:) == k));
+        end
+        TekrarEden = find(KacTane == 2);
+        TekrarEtmeyen = find(KacTane == 0);
+        for k = 1: length(TekrarEden)
+            IlkTekrar = find(Population(index(2*j-1),:) == TekrarEden(k));
+            Population(index(2*j-1),IlkTekrar(1)) = TekrarEtmeyen(k);
+        end
+        
+        for k = 1: SehirSayisi
+            KacTane(k) = length(find(Population(index(2*j),:) == k));
+        end
+        TekrarEden = find(KacTane == 2);
+        TekrarEtmeyen = find(KacTane == 0);
+        for k = 1: length(TekrarEden)
+            IlkTekrar = find(Population(index(2*j),:) == TekrarEden(k));
+            Population(index(2*j),IlkTekrar(1)) = TekrarEtmeyen(k);
+        end
+    end
+    
+    % Mutasyon Islemi
+    if(i~=GN)
+        RandomMNum = rand(PN*SehirSayisi,1);
+        index = find(RandomMNum < (MO/100));
+        MONum = length(index);
+        
+        for j = 1:MONum
+            Sehir = ceil(rand * (SehirSayisi - 1));
+            Temp = Population(ceil(index(j)/SehirSayisi),mod(index(j),SehirSayisi)+1);
+            Population(ceil(index(j)/SehirSayisi),mod(index(j),SehirSayisi)+1) = Population(ceil(index(j)/SehirSayisi),Sehir);
+            Population(ceil(index(j)/SehirSayisi),Sehir) = Temp;
+        end
+    end
+    
+    % Uygunluk degerlerinin hesaplanmasi
+    for j = 1: PN
+        Dist = 0;
+        for k = 1:SehirSayisi - 1
+            Dist = Dist + Sehirler(Population(j,k),Population(j,k+1));
+        end
+        Distance(j) = Dist;
+    end
+    
+    [minDistance, minIndex] = min(Distance);
+    fprintf(fid, '%d\t\t\t%d\t\t\t%d\n',i,sum(Distance),minDistance);
+end
+toc
+fprintf(fid,'\n\n%d. iterasyonda en iyi uygunluk degeri: %d\n', BestGN-1,BestDistance);
+fprintf(fid,'\n%d. iterasyonda en iyi rota:',BestGN-1);
+for j = 1:SehirSayisi
+    fprintf(fid,'%d',BestRoute(j));
+end
+str = ['En kisa mesafe: ',num2str(BestDistance)];
+disp(str);
+str = ['En iyi rota: ', num2str(BestRoute)];
+disp(str);
+fclose(fid);
